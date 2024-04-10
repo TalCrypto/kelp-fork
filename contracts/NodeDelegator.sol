@@ -16,6 +16,7 @@ import { ReentrancyGuardUpgradeable } from "@openzeppelin/contracts-upgradeable/
 
 import { IEigenPodManager } from "./interfaces/IEigenPodManager.sol";
 import { IEigenPod, BeaconChainProofs, IBeaconDeposit } from "./interfaces/IEigenPod.sol";
+import { ISSVNetwork, Cluster } from "./interfaces/ISSVNetwork.sol";
 
 /// @title NodeDelegator Contract
 /// @notice The contract that handles the depositing of assets into strategies
@@ -267,6 +268,37 @@ contract NodeDelegator is INodeDelegator, LRTConfigRoleChecker, PausableUpgradea
         }
 
         emit ETHDepositFromDepositPool(msg.value);
+    }
+
+    /// @dev Approves the SSV Network contract to transfer SSV tokens for deposits
+    function approveSSV() external onlyLRTManager {
+        address SSV_TOKEN_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_TOKEN);
+        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+
+        IERC20(SSV_TOKEN_ADDRESS).approve(SSV_NETWORK_ADDRESS, type(uint256).max);
+    }
+
+    /// @dev Deposits more SSV Tokens to the SSV Network contract which is used to pay the SSV Operators
+    function depositSSV(uint64[] memory operatorIds, uint256 amount, Cluster memory cluster) external onlyLRTManager {
+        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+
+        ISSVNetwork(SSV_NETWORK_ADDRESS).deposit(address(this), operatorIds, amount, cluster);
+    }
+
+    function registerSsvValidator(
+        bytes calldata publicKey,
+        uint64[] calldata operatorIds,
+        bytes calldata sharesData,
+        uint256 amount,
+        Cluster calldata cluster
+    )
+        external
+        onlyLRTOperator
+        whenNotPaused
+    {
+        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+
+        ISSVNetwork(SSV_NETWORK_ADDRESS).registerValidator(publicKey, operatorIds, sharesData, amount, cluster);
     }
 
     /// @dev allow NodeDelegator to receive ETH

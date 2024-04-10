@@ -33,4 +33,8 @@ library LRTConstants {
 
     // Operator Role
     bytes32 public constant OPERATOR_ROLE = keccak256("OPERATOR_ROLE");
+
+    // SSV
+    bytes32 public constant SSV_TOKEN = keccak256("SSV_TOKEN");
+    bytes32 public constant SSV_NETWORK = keccak256("SSV_NETWORK");
 }
