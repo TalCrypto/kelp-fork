@@ -7,7 +7,7 @@ import "forge-std/Script.sol";
 import { LRTConfig, LRTConstants } from "contracts/LRTConfig.sol";
 import { LRTDepositPool } from "contracts/LRTDepositPool.sol";
 import { NodeDelegator } from "contracts/NodeDelegator.sol";
-import { RSETH } from "contracts/RSETH.sol";
+import { NovETH } from "contracts/NovETH.sol";
 
 import { ProxyFactory } from "script/foundry-scripts/utils/ProxyFactory.sol";
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
@@ -20,7 +20,7 @@ contract DeployLRTDepositPool is Script {
 
     LRTConfig public lrtConfigProxy;
     LRTDepositPool public lrtDepositPoolProxy;
-    RSETH public RSETHProxy;
+    NovETH public NovETHProxy;
 
     NodeDelegator public nodeDelegatorProxy1;
     NodeDelegator public nodeDelegatorProxy2;
@@ -33,7 +33,7 @@ contract DeployLRTDepositPool is Script {
         // add deposit pool to LRT config
         lrtConfigProxy.setContract(LRTConstants.LRT_DEPOSIT_POOL, address(lrtDepositPoolProxy));
 
-        // add minter role to lrtDepositPool so it mint rsETH
+        // add minter role to lrtDepositPool so it mint novETH
         lrtConfigProxy.grantRole(LRTConstants.MINTER_ROLE, address(lrtDepositPoolProxy));
         address oldDepositPoolProxy = 0x55052ba1a135c43a17cf6CeE58a59c782CeF1Bcf;
         lrtConfigProxy.revokeRole(LRTConstants.MINTER_ROLE, oldDepositPoolProxy);
@@ -55,7 +55,7 @@ contract DeployLRTDepositPool is Script {
         proxyAdmin = ProxyAdmin(0x503DCfd945dC6612FAa18823501C05410D7eB646);
         proxyAdminOwner = proxyAdmin.owner();
         lrtConfigProxy = LRTConfig(0x99Abf439a4e9910934Dea47082286a04986820b5);
-        RSETHProxy = RSETH(0xDa3FF613C5A44F743E5F46c43D1f6F897F425205);
+        NovETHProxy = NovETH(0xDa3FF613C5A44F743E5F46c43D1f6F897F425205);
         nodeDelegatorProxy1 = NodeDelegator(payable(0x89cD79e873DEA08D1AfA173B9160c8D31e4Bc9f0));
         nodeDelegatorProxy2 = NodeDelegator(payable(0x5c5720246d3210E90875015c8439230c027a104b));
         nodeDelegatorProxy3 = NodeDelegator(payable(0x68FBD2a42e5d598dA91161f69a8346aFc9Ad9BA8));

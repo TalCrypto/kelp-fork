@@ -20,12 +20,12 @@ interface ILRTConfig {
     event RemovedSupportedAsset(address indexed asset);
     event AssetDepositLimitUpdate(address indexed asset, uint256 depositLimit);
     event AssetStrategyUpdate(address indexed asset, address indexed strategy);
-    event SetRSETH(address indexed rsETH);
+    event SetNovETH(address indexed novETH);
     event UpdateMaxRewardAmount(uint256 maxRewardAmount);
 
     // methods
 
-    function rsETH() external view returns (address);
+    function novETH() external view returns (address);
 
     function assetStrategy(address asset) external view returns (address);
 

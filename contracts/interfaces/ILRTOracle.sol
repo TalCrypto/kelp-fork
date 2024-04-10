@@ -8,5 +8,5 @@ interface ILRTOracle {
     // methods
     function getAssetPrice(address asset) external view returns (uint256);
     function assetPriceOracle(address asset) external view returns (address);
-    function rsETHPrice() external view returns (uint256);
+    function novETHPrice() external view returns (uint256);
 }

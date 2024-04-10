@@ -103,7 +103,7 @@ contract LRTConfigInitialize is LRTConfigTest {
         vm.stopPrank();
     }
 
-    function test_RevertWhenRSETHIsZeroAddress() external {
+    function test_RevertWhenNovETHIsZeroAddress() external {
         vm.startPrank(admin);
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
         lrtConfig.initialize(admin, address(stETH), address(ethX), address(0));
@@ -332,7 +332,7 @@ contract LRTConfigGettersTest is LRTConfigTest {
 }
 
 contract LRTConfigSettersTest is LRTConfigTest {
-    address public newRSETH;
+    address public newNovETH;
 
     function setUp() public override {
         super.setUp();
@@ -343,31 +343,31 @@ contract LRTConfigSettersTest is LRTConfigTest {
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
         vm.stopPrank();
 
-        newRSETH = makeAddr("newRSETH");
+        newNovETH = makeAddr("newNovETH");
     }
 
-    function test_RevertSetRSETHIfNotAdmin() external {
+    function test_RevertSetNovETHIfNotAdmin() external {
         vm.startPrank(alice);
         vm.expectRevert(
             "AccessControl: account 0x328809bc894f92807417d2dad6b7c998c1afdac6 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
-        lrtConfig.setRSETH(newRSETH);
+        lrtConfig.setNovETH(newNovETH);
         vm.stopPrank();
     }
 
-    function test_RevertSetRSETHIfRSETHAddressIsZero() external {
+    function test_RevertSetNovETHIfNovETHAddressIsZero() external {
         vm.startPrank(admin);
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        lrtConfig.setRSETH(address(0));
+        lrtConfig.setNovETH(address(0));
         vm.stopPrank();
     }
 
-    function test_SetRSETH() external {
+    function test_SetNovETH() external {
         vm.startPrank(admin);
-        lrtConfig.setRSETH(newRSETH);
+        lrtConfig.setNovETH(newNovETH);
         vm.stopPrank();
 
-        assertEq(lrtConfig.rsETH(), newRSETH);
+        assertEq(lrtConfig.novETH(), newNovETH);
     }
 
     function test_RevertSetTokenIfNotAdmin() external {

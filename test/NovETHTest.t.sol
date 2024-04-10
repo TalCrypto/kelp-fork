@@ -3,13 +3,13 @@
 pragma solidity 0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
-import { RSETH } from "contracts/RSETH.sol";
+import { NovETH } from "contracts/NovETH.sol";
 import { LRTConfigTest, ILRTConfig, UtilLib, LRTConstants } from "./LRTConfigTest.t.sol";
 import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
-contract RSETHTest is BaseTest, LRTConfigTest {
-    RSETH public rseth;
+contract NovETHTest is BaseTest, LRTConfigTest {
+    NovETH public rseth;
 
     event UpdatedLRTConfig(address indexed _lrtConfig);
 
@@ -20,15 +20,15 @@ contract RSETHTest is BaseTest, LRTConfigTest {
         lrtConfig.initialize(admin, address(stETH), address(ethX), rsethMock);
 
         ProxyAdmin proxyAdmin = new ProxyAdmin();
-        RSETH tokenImpl = new RSETH();
+        NovETH tokenImpl = new NovETH();
         TransparentUpgradeableProxy tokenProxy =
             new TransparentUpgradeableProxy(address(tokenImpl), address(proxyAdmin), "");
 
-        rseth = RSETH(address(tokenProxy));
+        rseth = NovETH(address(tokenProxy));
     }
 }
 
-contract RSETHInitialize is RSETHTest {
+contract NovETHInitialize is NovETHTest {
     function test_RevertWhenAdminIsZeroAddress() external {
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
         rseth.initialize(address(0), address(lrtConfig));
@@ -45,12 +45,12 @@ contract RSETHInitialize is RSETHTest {
         assertTrue(lrtConfig.hasRole(LRTConstants.DEFAULT_ADMIN_ROLE, admin), "Admin address is not set");
         assertEq(address(lrtConfig), address(rseth.lrtConfig()), "LRT config address is not set");
 
-        assertEq(rseth.name(), "rsETH", "Name is not set");
-        assertEq(rseth.symbol(), "rsETH", "Symbol is not set");
+        assertEq(rseth.name(), "novETH", "Name is not set");
+        assertEq(rseth.symbol(), "novETH", "Symbol is not set");
     }
 }
 
-contract RSETHMint is RSETHTest {
+contract NovETHMint is NovETHTest {
     address public minter = makeAddr("minter");
 
     function setUp() public override {
@@ -104,7 +104,7 @@ contract RSETHMint is RSETHTest {
     }
 }
 
-contract RSETHBurnFrom is RSETHTest {
+contract NovETHBurnFrom is NovETHTest {
     address public burner = makeAddr("burner");
 
     function setUp() public override {
@@ -151,7 +151,7 @@ contract RSETHBurnFrom is RSETHTest {
     }
 }
 
-contract RSETHPause is RSETHTest {
+contract NovETHPause is NovETHTest {
     function setUp() public override {
         super.setUp();
         rseth.initialize(address(admin), address(lrtConfig));
@@ -190,7 +190,7 @@ contract RSETHPause is RSETHTest {
     }
 }
 
-contract RSETHUnpause is RSETHTest {
+contract NovETHUnpause is NovETHTest {
     function setUp() public override {
         super.setUp();
         rseth.initialize(address(admin), address(lrtConfig));

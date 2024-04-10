@@ -9,12 +9,12 @@ import {
     ERC20,
     NodeDelegator,
     LRTOracle,
-    RSETH,
+    NovETH,
     LRTConfig,
     LRTDepositPool
 } from "./LRTIntegrationTest.t.sol";
 
-import { RSETHPriceFeed } from "../../contracts/oracles/RSETHPriceFeed.sol";
+import { NovETHPriceFeed } from "../../contracts/oracles/NovETHPriceFeed.sol";
 
 contract LRTIntegrationTestETHMainnet is LRTIntegrationTest {
     function setUp() public override {
@@ -36,7 +36,7 @@ contract LRTIntegrationTestETHMainnet is LRTIntegrationTest {
 
         lrtDepositPool = LRTDepositPool(payable(0x036676389e48133B63a802f8635AD39E752D375D));
         lrtConfig = LRTConfig(0x947Cb49334e6571ccBFEF1f1f1178d8469D65ec7);
-        rseth = RSETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
+        rseth = NovETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
         lrtOracle = LRTOracle(0x349A73444b1a310BAe67ef67973022020d70020d);
         nodeDelegator1 = NodeDelegator(payable(0x07b96Cf1183C9BFf2E43Acf0E547a8c4E4429473));
 
@@ -47,7 +47,7 @@ contract LRTIntegrationTestETHMainnet is LRTIntegrationTest {
 
         vm.startPrank(ethXWhale);
         ERC20(ethXAddress).approve(address(lrtDepositPool), amountToTransfer);
-        lrtDepositPool.depositAsset(ethXAddress, amountToTransfer, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(ethXAddress, amountToTransfer, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
         uint256 indexOfNodeDelegator = 0;
@@ -58,8 +58,8 @@ contract LRTIntegrationTestETHMainnet is LRTIntegrationTest {
 
     function test_morphoPriceFeed() public {
         address ethToUSDAggregatorAddress = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419;
-        address rsETHOracle = 0x349A73444b1a310BAe67ef67973022020d70020d;
-        RSETHPriceFeed priceFeed = new RSETHPriceFeed(ethToUSDAggregatorAddress, rsETHOracle, "RSETH / USD");
+        address novETHOracle = 0x349A73444b1a310BAe67ef67973022020d70020d;
+        NovETHPriceFeed priceFeed = new NovETHPriceFeed(ethToUSDAggregatorAddress, novETHOracle, "NovETH / USD");
 
         console.log("desc", priceFeed.description());
         console.log("decimals", priceFeed.decimals());

@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 import { ProxyFactory } from "script/foundry-scripts/utils/ProxyFactory.sol";
 import { LRTConfig, ILRTConfig, LRTConstants } from "contracts/LRTConfig.sol";
-import { RSETH } from "contracts/RSETH.sol";
+import { NovETH } from "contracts/NovETH.sol";
 import { LRTOracle } from "contracts/LRTOracle.sol";
 import { OneETHPriceOracle } from "contracts/oracles/OneETHPriceOracle.sol";
 import { NodeDelegator } from "contracts/NodeDelegator.sol";
@@ -27,7 +27,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
     ProxyAdmin proxyAdmin;
     LRTDepositPool public lrtDepositPool;
     LRTConfig public lrtConfig;
-    RSETH public rseth;
+    NovETH public rseth;
     LRTOracle public lrtOracle;
     NodeDelegator public nodeDelegator1;
 
@@ -77,7 +77,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
         proxyAdmin = ProxyAdmin(0xb61e0E39b6d4030C36A176f576aaBE44BF59Dc78);
         lrtDepositPool = LRTDepositPool(payable(0x036676389e48133B63a802f8635AD39E752D375D));
         lrtConfig = LRTConfig(0x947Cb49334e6571ccBFEF1f1f1178d8469D65ec7);
-        rseth = RSETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
+        rseth = NovETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
         lrtOracle = LRTOracle(0x349A73444b1a310BAe67ef67973022020d70020d);
         nodeDelegator1 = NodeDelegator(payable(0x07b96Cf1183C9BFf2E43Acf0E547a8c4E4429473));
 

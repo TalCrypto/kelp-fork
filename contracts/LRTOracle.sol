@@ -5,7 +5,7 @@ import { UtilLib } from "./utils/UtilLib.sol";
 import { LRTConstants } from "./utils/LRTConstants.sol";
 import { LRTConfigRoleChecker, ILRTConfig } from "./utils/LRTConfigRoleChecker.sol";
 
-import { IRSETH } from "./interfaces/IRSETH.sol";
+import { INovETH } from "./interfaces/INovETH.sol";
 import { IPriceFetcher } from "./interfaces/IPriceFetcher.sol";
 import { ILRTOracle } from "./interfaces/ILRTOracle.sol";
 import { ILRTDepositPool } from "./interfaces/ILRTDepositPool.sol";
@@ -18,7 +18,7 @@ import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/I
 /// @notice oracle contract that calculates the exchange rate of assets
 contract LRTOracle is ILRTOracle, LRTConfigRoleChecker, Initializable {
     mapping(address asset => address priceOracle) public override assetPriceOracle;
-    uint256 public override rsETHPrice;
+    uint256 public override novETHPrice;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -46,14 +46,14 @@ contract LRTOracle is ILRTOracle, LRTConfigRoleChecker, Initializable {
         return IPriceFetcher(assetPriceOracle[asset]).getAssetPrice(asset);
     }
 
-    /// @notice updates RSETH/ETH exchange rate
+    /// @notice updates NovETH/ETH exchange rate
     /// @dev calculates based on stakedAsset value received from eigen layer
-    function updateRSETHPrice() external {
-        address rsETHTokenAddress = lrtConfig.rsETH();
-        uint256 rsEthSupply = IRSETH(rsETHTokenAddress).totalSupply();
+    function updateNovETHPrice() external {
+        address novETHTokenAddress = lrtConfig.novETH();
+        uint256 rsEthSupply = INovETH(novETHTokenAddress).totalSupply();
 
         if (rsEthSupply == 0) {
-            rsETHPrice = 1 ether;
+            novETHPrice = 1 ether;
             return;
         }
 
@@ -75,7 +75,7 @@ contract LRTOracle is ILRTOracle, LRTConfigRoleChecker, Initializable {
             }
         }
 
-        rsETHPrice = totalETHInPool / rsEthSupply;
+        novETHPrice = totalETHInPool / rsEthSupply;
     }
 
     /*//////////////////////////////////////////////////////////////

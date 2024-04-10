@@ -5,7 +5,7 @@ import { UtilLib } from "./utils/UtilLib.sol";
 import { LRTConstants } from "./utils/LRTConstants.sol";
 
 import { LRTConfigRoleChecker, ILRTConfig } from "./utils/LRTConfigRoleChecker.sol";
-import { IRSETH } from "./interfaces/IRSETH.sol";
+import { INovETH } from "./interfaces/INovETH.sol";
 import { ILRTOracle } from "./interfaces/ILRTOracle.sol";
 import { INodeDelegator } from "./interfaces/INodeDelegator.sol";
 import { ILRTDepositPool } from "./interfaces/ILRTDepositPool.sol";
@@ -115,7 +115,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         }
     }
 
-    /// @notice View amount of rsETH to mint for given asset amount
+    /// @notice View amount of novETH to mint for given asset amount
     /// @param asset Asset address
     /// @param amount Asset amount
     /// @return rsethAmountToMint Amount of rseth to mint
@@ -133,7 +133,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         ILRTOracle lrtOracle = ILRTOracle(lrtOracleAddress);
 
         // calculate rseth amount to mint based on asset amount and asset exchange rate
-        rsethAmountToMint = (amount * lrtOracle.getAssetPrice(asset)) / lrtOracle.rsETHPrice();
+        rsethAmountToMint = (amount * lrtOracle.getAssetPrice(asset)) / lrtOracle.novETHPrice();
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -141,10 +141,10 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
     //////////////////////////////////////////////////////////////*/
 
     /// @notice Allows user to deposit ETH to the protocol
-    /// @param minRSETHAmountExpected Minimum amount of rseth to receive
+    /// @param minNovETHAmountExpected Minimum amount of rseth to receive
     /// @param referralId referral id
     function depositETH(
-        uint256 minRSETHAmountExpected,
+        uint256 minNovETHAmountExpected,
         string calldata referralId
     )
         external
@@ -153,7 +153,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         nonReentrant
     {
         // checks
-        uint256 rsethAmountToMint = _beforeDeposit(LRTConstants.ETH_TOKEN, msg.value, minRSETHAmountExpected);
+        uint256 rsethAmountToMint = _beforeDeposit(LRTConstants.ETH_TOKEN, msg.value, minNovETHAmountExpected);
 
         // interactions
         _mintRsETH(rsethAmountToMint);
@@ -164,11 +164,11 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
     /// @notice helps user stake LST to the protocol
     /// @param asset LST asset address to stake
     /// @param depositAmount LST asset amount to stake
-    /// @param minRSETHAmountExpected Minimum amount of rseth to receive
+    /// @param minNovETHAmountExpected Minimum amount of rseth to receive
     function depositAsset(
         address asset,
         uint256 depositAmount,
-        uint256 minRSETHAmountExpected,
+        uint256 minNovETHAmountExpected,
         string calldata referralId
     )
         external
@@ -177,7 +177,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         onlySupportedAsset(asset)
     {
         // checks
-        uint256 rsethAmountToMint = _beforeDeposit(asset, depositAmount, minRSETHAmountExpected);
+        uint256 rsethAmountToMint = _beforeDeposit(asset, depositAmount, minNovETHAmountExpected);
 
         // interactions
         if (!IERC20(asset).transferFrom(msg.sender, address(this), depositAmount)) {
@@ -191,7 +191,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
     function _beforeDeposit(
         address asset,
         uint256 depositAmount,
-        uint256 minRSETHAmountExpected
+        uint256 minNovETHAmountExpected
     )
         private
         view
@@ -206,7 +206,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         }
         rsethAmountToMint = getRsETHAmountToMint(asset, depositAmount);
 
-        if (rsethAmountToMint < minRSETHAmountExpected) {
+        if (rsethAmountToMint < minNovETHAmountExpected) {
             revert MinimumAmountToReceiveNotMet();
         }
     }
@@ -214,9 +214,9 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
     /// @dev private function to mint rseth
     /// @param rsethAmountToMint Amount of rseth minted
     function _mintRsETH(uint256 rsethAmountToMint) private {
-        address rsethToken = lrtConfig.rsETH();
+        address rsethToken = lrtConfig.novETH();
         // mint rseth for user
-        IRSETH(rsethToken).mint(msg.sender, rsethAmountToMint);
+        INovETH(rsethToken).mint(msg.sender, rsethAmountToMint);
     }
 
     /// @notice add new node delegator contract addresses

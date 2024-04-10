@@ -7,12 +7,12 @@ async function main() {
 
   const assetAddress = process.env.ASSET_ADDRESS ?? "";
   const depositAmount = ethers.utils.parseEther("0.005");
-  const minimumAmountOfRSETHForDeposit = lrtDepositPool.getRsETHAmountToMint(assetAddress, depositAmount);
+  const minimumAmountOfNovETHForDeposit = lrtDepositPool.getRsETHAmountToMint(assetAddress, depositAmount);
   const referralId = 0;
   const depositTx = await lrtDepositPoolInstance.depositAsset(
     assetAddress,
     depositAmount,
-    minimumAmountOfRSETHForDeposit,
+    minimumAmountOfNovETHForDeposit,
     referralId,
   );
   depositTx.wait();

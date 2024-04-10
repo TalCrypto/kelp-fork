@@ -19,25 +19,25 @@ interface AggregatorV3Interface {
         returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
-interface IRSETHOracle {
-    function rsETHPrice() external view returns (uint256);
+interface INovETHOracle {
+    function novETHPrice() external view returns (uint256);
 }
 
-contract RSETHPriceFeed is AggregatorV3Interface {
+contract NovETHPriceFeed is AggregatorV3Interface {
     /// @notice Price feed for (ETH / USD) pair
     AggregatorV3Interface public immutable ETH_TO_USD;
 
-    /// @notice rsETH oracle contract
-    IRSETHOracle public immutable RS_ETH_ORACLE;
+    /// @notice novETH oracle contract
+    INovETHOracle public immutable RS_ETH_ORACLE;
 
     string public description;
 
     /// @param ethToUSDAggregatorAddress the address of ETH / USD feed
-    /// @param rsETHOracle the address of rsETHOracle contract
-    /// @param description_ priceFeed description (RSETH / USD)
-    constructor(address ethToUSDAggregatorAddress, address rsETHOracle, string memory description_) {
+    /// @param novETHOracle the address of novETHOracle contract
+    /// @param description_ priceFeed description (NovETH / USD)
+    constructor(address ethToUSDAggregatorAddress, address novETHOracle, string memory description_) {
         ETH_TO_USD = AggregatorV3Interface(ethToUSDAggregatorAddress);
-        RS_ETH_ORACLE = IRSETHOracle(rsETHOracle);
+        RS_ETH_ORACLE = INovETHOracle(novETHOracle);
 
         description = description_;
     }
@@ -57,7 +57,7 @@ contract RSETHPriceFeed is AggregatorV3Interface {
     {
         (roundId, answer, startedAt, updatedAt, answeredInRound) = ETH_TO_USD.getRoundData(_roundId);
 
-        answer = int256(RS_ETH_ORACLE.rsETHPrice()) * answer / 1e18;
+        answer = int256(RS_ETH_ORACLE.novETHPrice()) * answer / 1e18;
     }
 
     function latestRoundData()
@@ -66,6 +66,6 @@ contract RSETHPriceFeed is AggregatorV3Interface {
         returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
     {
         (roundId, answer, startedAt, updatedAt, answeredInRound) = ETH_TO_USD.latestRoundData();
-        answer = int256(RS_ETH_ORACLE.rsETHPrice()) * answer / 1e18;
+        answer = int256(RS_ETH_ORACLE.novETHPrice()) * answer / 1e18;
     }
 }

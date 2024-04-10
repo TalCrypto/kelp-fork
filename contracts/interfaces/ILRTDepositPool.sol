@@ -32,7 +32,7 @@ interface ILRTDepositPool {
     function depositAsset(
         address asset,
         uint256 depositAmount,
-        uint256 minRSETHAmountExpected,
+        uint256 minNovETHAmountExpected,
         string calldata referralId
     )
         external;

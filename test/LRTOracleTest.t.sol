@@ -32,7 +32,7 @@ contract MockLRTDepositPool {
 contract LRTOracleTest is LRTConfigTest {
     LRTOracle public lrtOracle;
     MockLRTDepositPool public lrtDepositPoolMock;
-    MockToken public rsETHMock;
+    MockToken public novETHMock;
 
     event UpdatedLRTConfig(address indexed lrtConfig);
     event AssetPriceOracleUpdate(address indexed asset, address indexed priceOracle);
@@ -40,10 +40,10 @@ contract LRTOracleTest is LRTConfigTest {
     function setUp() public virtual override {
         super.setUp();
 
-        rsETHMock = new MockToken("rsETH", "rsETH");
+        novETHMock = new MockToken("novETH", "novETH");
 
         // initialize LRTConfig
-        lrtConfig.initialize(admin, address(stETH), address(ethX), address(rsETHMock));
+        lrtConfig.initialize(admin, address(stETH), address(ethX), address(novETHMock));
 
         lrtDepositPoolMock = new MockLRTDepositPool();
 
@@ -158,7 +158,7 @@ contract LRTOracleFetchAssetPrice is LRTOracleTest {
     }
 }
 
-contract LRTOracleFetchRSETHPrice is LRTOracleTest {
+contract LRTOracleFetchNovETHPrice is LRTOracleTest {
     MockPriceOracle public priceOracle;
 
     function setUp() public override {
@@ -173,16 +173,16 @@ contract LRTOracleFetchRSETHPrice is LRTOracleTest {
         vm.stopPrank();
     }
 
-    function test_FetchRSETHPriceWhenRSETHSupplyIsZero() external {
-        lrtOracle.updateRSETHPrice();
-        assertEq(rsETHMock.totalSupply(), 0);
-        assertEq(lrtOracle.rsETHPrice(), 1 ether);
+    function test_FetchNovETHPriceWhenNovETHSupplyIsZero() external {
+        lrtOracle.updateNovETHPrice();
+        assertEq(novETHMock.totalSupply(), 0);
+        assertEq(lrtOracle.novETHPrice(), 1 ether);
     }
 
-    function test_FetchRSETHPrice() external {
-        vm.mockCall(address(rsETHMock), abi.encodeWithSelector(ERC20.totalSupply.selector), abi.encode(4 ether));
-        lrtOracle.updateRSETHPrice();
-        assertEq(rsETHMock.totalSupply(), 4 ether);
-        assertEq(lrtOracle.rsETHPrice(), 1 ether);
+    function test_FetchNovETHPrice() external {
+        vm.mockCall(address(novETHMock), abi.encodeWithSelector(ERC20.totalSupply.selector), abi.encode(4 ether));
+        lrtOracle.updateNovETHPrice();
+        assertEq(novETHMock.totalSupply(), 4 ether);
+        assertEq(lrtOracle.novETHPrice(), 1 ether);
     }
 }

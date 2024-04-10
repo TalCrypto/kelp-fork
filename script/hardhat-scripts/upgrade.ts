@@ -9,7 +9,7 @@ export class Upgrader {
       ChainlinkPriceOracle: await hardhat.ethers.getContractFactory("ChainlinkPriceOracle"),
       EthXPriceOracle: await hardhat.ethers.getContractFactory("EthXPriceOracle"),
       LRTConfig: await hardhat.ethers.getContractFactory("LRTConfig"),
-      RSETH: await hardhat.ethers.getContractFactory("RSETH"),
+      NovETH: await hardhat.ethers.getContractFactory("NovETH"),
     };
   }
 

@@ -5,7 +5,7 @@ const hre = require('hardhat')
 const lrtConfig = process.env.LRT_CONFIG ?? ''
 const lrtOracle = process.env.LRT_ORACLE ?? ''
 const lrtDepositPool = process.env.LRT_DEPOSIT_POOL ?? ''
-const rsETH = process.env.RS_ETH ?? ''
+const novETH = process.env.RS_ETH ?? ''
 const nodeDelegator = process.env.NODE_DELEGATOR ?? ''
 const nodeDelegator2 = process.env.NODE_DELEGATOR2 ?? ''
 const nodeDelegator3 = process.env.NODE_DELEGATOR3 ?? ''
@@ -15,7 +15,7 @@ const contractAddresses = [
     lrtConfig,
     lrtOracle,
     lrtDepositPool,
-    rsETH,
+    novETH,
     nodeDelegator,
     nodeDelegator2,
     nodeDelegator3

@@ -4,10 +4,10 @@ pragma solidity 0.8.21;
 
 import "forge-std/Script.sol";
 
-import { RSETHRateProvider } from "contracts/cross-chain/RSETHRateProvider.sol";
-import { RSETHRateReceiver } from "contracts/cross-chain/RSETHRateReceiver.sol";
+import { NovETHRateProvider } from "contracts/cross-chain/NovETHRateProvider.sol";
+import { NovETHRateReceiver } from "contracts/cross-chain/NovETHRateReceiver.sol";
 
-contract DeployRSETHRateProvider is Script {
+contract DeployNovETHRateProvider is Script {
     function run() external {
         vm.startBroadcast();
 
@@ -15,20 +15,20 @@ contract DeployRSETHRateProvider is Script {
             revert("Must be deployed on mainnet");
         }
 
-        address rsETHOracle = 0x349A73444b1a310BAe67ef67973022020d70020d;
+        address novETHOracle = 0x349A73444b1a310BAe67ef67973022020d70020d;
         uint16 layerZeroDstChainId = 158; // Layer Zero id for Polygon ZKEVM
         address layerZeroEndpoint = 0x66A71Dcef29A0fFBDBE3c6a460a3B5BC225Cd675;
 
-        address rsETHRateProviderContractAddress =
-            address(new RSETHRateProvider(rsETHOracle, layerZeroDstChainId, layerZeroEndpoint));
+        address novETHRateProviderContractAddress =
+            address(new NovETHRateProvider(novETHOracle, layerZeroDstChainId, layerZeroEndpoint));
 
-        console.log("RSETHRateProvider deployed at: %s", address(rsETHRateProviderContractAddress));
+        console.log("NovETHRateProvider deployed at: %s", address(novETHRateProviderContractAddress));
 
         vm.stopBroadcast();
     }
 }
 
-contract DeployRSETHRateReceiver is Script {
+contract DeployNovETHRateReceiver is Script {
     function run() external {
         vm.startBroadcast();
 
@@ -40,10 +40,10 @@ contract DeployRSETHRateReceiver is Script {
         uint16 layerZeroSrcChainId = 101; // Layer Zero id for Ethereum mainnet
         address layerZeroEndpoint = 0x9740FF91F1985D8d2B71494aE1A2f723bb3Ed9E4; // LZ endpoint for polygon ZKEVM
 
-        address rsETHRateReceiverContractAddress =
-            address(new RSETHRateReceiver(layerZeroSrcChainId, rateProviderOnEthMainnet, layerZeroEndpoint));
+        address novETHRateReceiverContractAddress =
+            address(new NovETHRateReceiver(layerZeroSrcChainId, rateProviderOnEthMainnet, layerZeroEndpoint));
 
-        console.log("RSETHRateReceiver deployed at: %s", address(rsETHRateReceiverContractAddress));
+        console.log("NovETHRateReceiver deployed at: %s", address(novETHRateReceiverContractAddress));
 
         vm.stopBroadcast();
     }

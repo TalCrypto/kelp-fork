@@ -20,7 +20,7 @@ contract LRTConfig is ILRTConfig, AccessControlUpgradeable {
 
     address[] public supportedAssetList;
 
-    address public rsETH;
+    address public novETH;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -38,10 +38,10 @@ contract LRTConfig is ILRTConfig, AccessControlUpgradeable {
     /// @param admin Admin address
     /// @param stETH stETH address
     /// @param ethX ETHX address
-    /// @param rsETH_ rsETH address
-    function initialize(address admin, address stETH, address ethX, address rsETH_) external initializer {
+    /// @param novETH_ novETH address
+    function initialize(address admin, address stETH, address ethX, address novETH_) external initializer {
         UtilLib.checkNonZeroAddress(admin);
-        UtilLib.checkNonZeroAddress(rsETH_);
+        UtilLib.checkNonZeroAddress(novETH_);
 
         __AccessControl_init();
         _setToken(LRTConstants.ST_ETH_TOKEN, stETH);
@@ -51,7 +51,7 @@ contract LRTConfig is ILRTConfig, AccessControlUpgradeable {
 
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
 
-        rsETH = rsETH_;
+        novETH = novETH_;
     }
 
     /// @dev Adds a new supported asset
@@ -146,12 +146,12 @@ contract LRTConfig is ILRTConfig, AccessControlUpgradeable {
     /*//////////////////////////////////////////////////////////////
                             SETTERS
     //////////////////////////////////////////////////////////////*/
-    /// @dev Sets the rsETH contract address. Only callable by the admin
-    /// @param rsETH_ rsETH contract address
-    function setRSETH(address rsETH_) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        UtilLib.checkNonZeroAddress(rsETH_);
-        rsETH = rsETH_;
-        emit SetRSETH(rsETH_);
+    /// @dev Sets the novETH contract address. Only callable by the admin
+    /// @param novETH_ novETH contract address
+    function setNovETH(address novETH_) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        UtilLib.checkNonZeroAddress(novETH_);
+        novETH = novETH_;
+        emit SetNovETH(novETH_);
     }
 
     function setToken(bytes32 tokenKey, address assetAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {

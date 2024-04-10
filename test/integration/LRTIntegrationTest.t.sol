@@ -5,7 +5,7 @@ pragma solidity 0.8.21;
 import "forge-std/Test.sol";
 import { LRTDepositPool, ILRTDepositPool, LRTConstants } from "contracts/LRTDepositPool.sol";
 import { LRTConfig, ILRTConfig } from "contracts/LRTConfig.sol";
-import { RSETH } from "contracts/RSETH.sol";
+import { NovETH } from "contracts/NovETH.sol";
 import { LRTOracle } from "contracts/LRTOracle.sol";
 import { NodeDelegator } from "contracts/NodeDelegator.sol";
 import { UtilLib } from "contracts/utils/UtilLib.sol";
@@ -19,7 +19,7 @@ contract LRTIntegrationTest is Test {
 
     LRTDepositPool public lrtDepositPool;
     LRTConfig public lrtConfig;
-    RSETH public rseth;
+    NovETH public rseth;
     LRTOracle public lrtOracle;
     NodeDelegator public nodeDelegator1;
 
@@ -39,7 +39,7 @@ contract LRTIntegrationTest is Test {
     address public EIGEN_STETH_STRATEGY;
     address public EIGEN_ETHX_STRATEGY;
 
-    uint256 public minAmountOfRSETHToReceive;
+    uint256 public minAmountOfNovETHToReceive;
     string public referralId = "0";
 
     uint256 amountToTransfer;
@@ -65,7 +65,7 @@ contract LRTIntegrationTest is Test {
 
         lrtDepositPool = LRTDepositPool(payable(0xd51d846ba5032b9284b12850373ae2f053f977b3));
         lrtConfig = LRTConfig(0x6d7888Bc794C1104C64c28F4e849B7AE68231b6d);
-        rseth = RSETH(0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56);
+        rseth = NovETH(0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56);
         lrtOracle = LRTOracle(0xE92Ca437CA55AAbED0CBFFe398e384B997D4CCe9);
         nodeDelegator1 = NodeDelegator(payable(0x560B95A0Ba942A7E15645F655731244680fA030B));
 
@@ -76,7 +76,7 @@ contract LRTIntegrationTest is Test {
 
         vm.startPrank(stWhale);
         ERC20(stETHAddress).approve(address(lrtDepositPool), amountToTransfer);
-        lrtDepositPool.depositAsset(stETHAddress, amountToTransfer, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(stETHAddress, amountToTransfer, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
         address[] memory nodeDelegatorArray = lrtDepositPool.getNodeDelegatorQueue();
@@ -105,14 +105,14 @@ contract LRTIntegrationTest is Test {
     function test_RevertWhenDepositAmountIsZeroForDepositAsset() external {
         vm.expectRevert(ILRTDepositPool.InvalidAmountToDeposit.selector);
 
-        lrtDepositPool.depositAsset(ethXAddress, 0, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(ethXAddress, 0, minAmountOfNovETHToReceive, referralId);
     }
 
     function test_RevertWhenAssetIsNotSupportedForDepositAsset() external {
         address randomAsset = makeAddr("randomAsset");
 
         vm.expectRevert(ILRTConfig.AssetNotSupported.selector);
-        lrtDepositPool.depositAsset(randomAsset, 1 ether, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(randomAsset, 1 ether, minAmountOfNovETHToReceive, referralId);
     }
 
     function test_DepositAssetSTETHWorksWhenUsingTheCorrectConditions() external {
@@ -124,7 +124,7 @@ contract LRTIntegrationTest is Test {
 
         uint256 amountToDeposit = 2 ether;
 
-        // stWhale balance of rsETH before deposit
+        // stWhale balance of novETH before deposit
         uint256 stWhaleBalanceBefore = rseth.balanceOf(stWhale);
         // total asset deposits before deposit for stETH
         uint256 totalAssetDepositsBefore = lrtDepositPool.getTotalAssetDeposits(stETHAddress);
@@ -134,13 +134,13 @@ contract LRTIntegrationTest is Test {
         uint256 whaleStETHBalBefore = ERC20(stETHAddress).balanceOf(address(stWhale));
         vm.startPrank(stWhale);
         ERC20(stETHAddress).approve(address(lrtDepositPool), amountToDeposit);
-        lrtDepositPool.depositAsset(stETHAddress, amountToDeposit, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(stETHAddress, amountToDeposit, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
         uint256 whaleStETHBalAfter = ERC20(stETHAddress).balanceOf(address(stWhale));
 
         console.log("whale stETH amount transfer:", whaleStETHBalBefore - whaleStETHBalAfter);
 
-        // stWhale balance of rsETH after deposit
+        // stWhale balance of novETH after deposit
         uint256 stWhaleBalanceAfter = rseth.balanceOf(address(stWhale));
 
         assertApproxEqAbs(
@@ -161,7 +161,7 @@ contract LRTIntegrationTest is Test {
     function test_DepositAssetETHXWorksWhenUsingTheCorrectConditions() external {
         uint256 amountToDeposit = 2 ether;
 
-        // ethXWhale balance of rsETH before deposit
+        // ethXWhale balance of novETH before deposit
         uint256 ethXWhaleBalanceBefore = rseth.balanceOf(ethXWhale);
         // total asset deposits before deposit for ethXETH
         uint256 totalAssetDepositsBefore = lrtDepositPool.getTotalAssetDeposits(ethXAddress);
@@ -171,13 +171,13 @@ contract LRTIntegrationTest is Test {
         uint256 whaleethXBalBefore = ERC20(ethXAddress).balanceOf(address(ethXWhale));
         vm.startPrank(ethXWhale);
         ERC20(ethXAddress).approve(address(lrtDepositPool), amountToDeposit);
-        lrtDepositPool.depositAsset(ethXAddress, amountToDeposit, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(ethXAddress, amountToDeposit, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
         uint256 whaleethXBalAfter = ERC20(ethXAddress).balanceOf(address(ethXWhale));
 
         console.log("whale ethXETH amount transfer:", whaleethXBalBefore - whaleethXBalAfter);
 
-        // ethXWhale balance of rsETH after deposit
+        // ethXWhale balance of novETH after deposit
         uint256 ethXWhaleBalanceAfter = rseth.balanceOf(address(ethXWhale));
 
         assertEq(
@@ -206,7 +206,7 @@ contract LRTIntegrationTest is Test {
 
         vm.startPrank(stWhale);
         ERC20(stETHAddress).approve(address(lrtDepositPool), depositAmount);
-        lrtDepositPool.depositAsset(stETHAddress, depositAmount, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(stETHAddress, depositAmount, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
         uint256 stETHDepositLimitAfter = lrtDepositPool.getAssetCurrentLimit(stETHAddress);
@@ -264,7 +264,7 @@ contract LRTIntegrationTest is Test {
 
         vm.startPrank(stWhale);
         ERC20(stETHAddress).approve(address(lrtDepositPool), amountToTransfer);
-        lrtDepositPool.depositAsset(stETHAddress, amountToTransfer, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(stETHAddress, amountToTransfer, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
         assertApproxEqAbs(
@@ -304,7 +304,7 @@ contract LRTIntegrationTest is Test {
 
         vm.startPrank(ethXWhale);
         ERC20(ethXAddress).approve(address(lrtDepositPool), amountToTransfer);
-        lrtDepositPool.depositAsset(ethXAddress, amountToTransfer, minAmountOfRSETHToReceive, referralId);
+        lrtDepositPool.depositAsset(ethXAddress, amountToTransfer, minAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
         assertEq(
@@ -390,7 +390,7 @@ contract LRTIntegrationTest is Test {
         // tokens
         assertEq(stETHAddress, lrtConfig.getLSTToken(LRTConstants.ST_ETH_TOKEN));
         assertEq(ethXAddress, lrtConfig.getLSTToken(LRTConstants.ETHX_TOKEN));
-        assertEq(address(rseth), lrtConfig.rsETH());
+        assertEq(address(rseth), lrtConfig.novETH());
 
         assertTrue(lrtConfig.isSupportedAsset(stETHAddress));
         assertTrue(lrtConfig.isSupportedAsset(ethXAddress));
@@ -506,28 +506,28 @@ contract LRTIntegrationTest is Test {
         assertEq(lrtConfig.assetStrategy(stETHAddress), strategy);
     }
 
-    function test_RevertSetRSETHIfNotAdmin() external {
-        address newRSETH = makeAddr("newRSETH");
+    function test_RevertSetNovETHIfNotAdmin() external {
+        address newNovETH = makeAddr("newNovETH");
 
         vm.expectRevert(
             "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
         );
-        lrtConfig.setRSETH(newRSETH);
+        lrtConfig.setNovETH(newNovETH);
     }
 
-    function test_RevertSetRSETHIfRSETHAddressIsZero() external {
+    function test_RevertSetNovETHIfNovETHAddressIsZero() external {
         vm.startPrank(admin);
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        lrtConfig.setRSETH(address(0));
+        lrtConfig.setNovETH(address(0));
         vm.stopPrank();
     }
 
-    function test_SetRSETH() external {
-        address newRSETH = makeAddr("newRSETH");
+    function test_SetNovETH() external {
+        address newNovETH = makeAddr("newNovETH");
         vm.prank(admin);
-        lrtConfig.setRSETH(newRSETH);
+        lrtConfig.setNovETH(newNovETH);
 
-        assertEq(lrtConfig.rsETH(), newRSETH);
+        assertEq(lrtConfig.novETH(), newNovETH);
     }
 
     function test_RevertSetTokenIfNotAdmin() external {
@@ -632,16 +632,16 @@ contract LRTIntegrationTest is Test {
         assertEq(lrtOracle.assetPriceOracle(stETHAddress), randomPriceOracleAddress);
     }
 
-    function test_RSETHSetup() public {
+    function test_NovETHSetup() public {
         // check if lrtDepositPool has MINTER role
         assertTrue(lrtConfig.hasRole(LRTConstants.MINTER_ROLE, address(lrtDepositPool)));
 
-        // check if lrtConfig is set in rsETH
+        // check if lrtConfig is set in novETH
         assertEq(address(rseth.lrtConfig()), address(lrtConfig));
     }
 
-    function test_RSETHIsAlreadyInitialized() public {
-        // attempt to initialize RSETH again reverts
+    function test_NovETHIsAlreadyInitialized() public {
+        // attempt to initialize NovETH again reverts
         vm.expectRevert("Initializable: contract is already initialized");
         rseth.initialize(address(admin), address(lrtConfig));
     }

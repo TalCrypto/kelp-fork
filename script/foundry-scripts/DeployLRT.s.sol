@@ -5,7 +5,7 @@ pragma solidity 0.8.21;
 import "forge-std/Script.sol";
 
 import { LRTConfig, LRTConstants } from "contracts/LRTConfig.sol";
-import { RSETH } from "contracts/RSETH.sol";
+import { NovETH } from "contracts/NovETH.sol";
 import { LRTDepositPool } from "contracts/LRTDepositPool.sol";
 import { LRTOracle } from "contracts/LRTOracle.sol";
 import { ChainlinkPriceOracle } from "contracts/oracles/ChainlinkPriceOracle.sol";
@@ -39,7 +39,7 @@ contract DeployLRT is Script {
     ProxyFactory public proxyFactory;
 
     LRTConfig public lrtConfigProxy;
-    RSETH public RSETHProxy;
+    NovETH public NovETHProxy;
     LRTDepositPool public lrtDepositPoolProxy;
     LRTOracle public lrtOracleProxy;
     ChainlinkPriceOracle public chainlinkPriceOracleProxy;
@@ -99,8 +99,8 @@ contract DeployLRT is Script {
         (address stETH, address ethx) = getLSTs();
         // ----------- callable by admin ----------------
 
-        // add rsETH to LRT config
-        lrtConfigProxy.setRSETH(address(RSETHProxy));
+        // add novETH to LRT config
+        lrtConfigProxy.setNovETH(address(NovETHProxy));
         // add oracle to LRT config
         lrtConfigProxy.setContract(LRTConstants.LRT_ORACLE, address(lrtOracleProxy));
         // add deposit pool to LRT config
@@ -114,7 +114,7 @@ contract DeployLRT is Script {
 
         // grant MANAGER_ROLE to an address in LRTConfig
         lrtConfigProxy.grantRole(LRTConstants.MANAGER, proxyAdminOwner);
-        // add minter role to lrtDepositPool so it mints rsETH
+        // add minter role to lrtDepositPool so it mints novETH
         lrtConfigProxy.grantRole(LRTConstants.MINTER_ROLE, address(lrtDepositPoolProxy));
 
         // add nodeDelegators to LRTDepositPool queue
@@ -165,7 +165,7 @@ contract DeployLRT is Script {
 
         // deploy implementation contracts
         address lrtConfigImplementation = address(new LRTConfig());
-        address RSETHImplementation = address(new RSETH());
+        address NovETHImplementation = address(new NovETH());
         address lrtDepositPoolImplementation = address(new LRTDepositPool());
         address lrtOracleImplementation = address(new LRTOracle());
         address chainlinkPriceOracleImplementation = address(new ChainlinkPriceOracle());
@@ -174,7 +174,7 @@ contract DeployLRT is Script {
 
         console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         console.log("LRTConfig implementation deployed at: ", lrtConfigImplementation);
-        console.log("RSETH implementation deployed at: ", RSETHImplementation);
+        console.log("NovETH implementation deployed at: ", NovETHImplementation);
         console.log("LRTDepositPool implementation deployed at: ", lrtDepositPoolImplementation);
         console.log("LRTOracle implementation deployed at: ", lrtOracleImplementation);
         console.log("ChainlinkPriceOracle implementation deployed at: ", chainlinkPriceOracleImplementation);
@@ -187,14 +187,14 @@ contract DeployLRT is Script {
 
         // set up LRTConfig init params
         (address stETH, address ethx) = getLSTs();
-        address predictedRSETHAddress = proxyFactory.computeAddress(RSETHImplementation, address(proxyAdmin), salt);
-        console.log("predictedRSETHAddress: ", predictedRSETHAddress);
+        address predictedNovETHAddress = proxyFactory.computeAddress(NovETHImplementation, address(proxyAdmin), salt);
+        console.log("predictedNovETHAddress: ", predictedNovETHAddress);
         // init LRTConfig
-        lrtConfigProxy.initialize(proxyAdminOwner, stETH, ethx, predictedRSETHAddress);
+        lrtConfigProxy.initialize(proxyAdminOwner, stETH, ethx, predictedNovETHAddress);
 
-        RSETHProxy = RSETH(proxyFactory.create(address(RSETHImplementation), address(proxyAdmin), salt));
-        // init RSETH
-        RSETHProxy.initialize(proxyAdminOwner, address(lrtConfigProxy));
+        NovETHProxy = NovETH(proxyFactory.create(address(NovETHImplementation), address(proxyAdmin), salt));
+        // init NovETH
+        NovETHProxy.initialize(proxyAdminOwner, address(lrtConfigProxy));
 
         lrtDepositPoolProxy = LRTDepositPool(
             payable(proxyFactory.create(address(lrtDepositPoolImplementation), address(proxyAdmin), salt))
@@ -260,7 +260,7 @@ contract DeployLRT is Script {
         nodeDelegatorProxy5.initialize(address(lrtConfigProxy));
 
         console.log("LRTConfig proxy deployed at: ", address(lrtConfigProxy));
-        console.log("RSETH proxy deployed at: ", address(RSETHProxy));
+        console.log("NovETH proxy deployed at: ", address(NovETHProxy));
         console.log("LRTDepositPool proxy deployed at: ", address(lrtDepositPoolProxy));
         console.log("LRTOracle proxy deployed at: ", address(lrtOracleProxy));
         console.log("ChainlinkPriceOracle proxy deployed at: ", address(chainlinkPriceOracleProxy));
@@ -275,8 +275,8 @@ contract DeployLRT is Script {
         setUpByAdmin();
         setUpByManager();
 
-        // update rsETHPrice
-        lrtOracleProxy.updateRSETHPrice();
+        // update novETHPrice
+        lrtOracleProxy.updateNovETHPrice();
 
         // TODO: Check for the correct multisig addresses
         address manager = 0xFc015a866aA06dDcaD27Fe425bdd362a8927544D;

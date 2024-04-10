@@ -1,4 +1,4 @@
-# LRT-rsETH
+# LRT-novETH
 
 ## Setup
 
@@ -142,7 +142,7 @@ $ npm test:coverage:report
 | Contract Name           | Implementation Address                         |
 |-------------------------|------------------------------------------------|
 | LRTConfig               | 0x673a669425457bCabeb247f56552A0Fd8141cee2     |
-| RSETH                   | 0xb61e0E39b6d4030C36A176f576aaBE44BF59Dc78     |
+| NovETH                   | 0xb61e0E39b6d4030C36A176f576aaBE44BF59Dc78     |
 | LRTDepositPool          | 0x8D9CD771c51b7F6217E0000c1C735F05aDbE6594     |
 | LRTOracle               | 0x8E2fe2f55f295F3f141213789796fa79E709eF23     |
 | ChainlinkPriceOracle    | 0x2Ad42D71f65F76860FCE2C39032dEf101422b3f7     |
@@ -153,7 +153,7 @@ $ npm test:coverage:report
 | Contract Name           | Proxy Address                                  |
 |-------------------------|------------------------------------------------|
 | LRTConfig               | 0x6d7888Bc794C1104C64c28F4e849B7AE68231b6d     |
-| RSETH                   | 0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56     |
+| NovETH                   | 0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56     |
 | LRTDepositPool          | 0xd51d846ba5032b9284b12850373ae2f053f977b3     |
 | LRTOracle               | 0xE92Ca437CA55AAbED0CBFFe398e384B997D4CCe9     |
 | ChainlinkPriceOracle    | 0x750604fAbF4828d1CaA19022238bc8C0DD6C50D5     |
@@ -179,7 +179,7 @@ $ npm test:coverage:report
 | Contract Name           | Implementation Address                         |
 |-------------------------|------------------------------------------------|
 | LRTConfig               | 0x8D9CD771c51b7F6217E0000c1C735F05aDbE6594     |
-| RSETH                   | 0x8E2fe2f55f295F3f141213789796fa79E709eF23     |
+| NovETH                   | 0x8E2fe2f55f295F3f141213789796fa79E709eF23     |
 | LRTDepositPool          | 0x2Ad42D71f65F76860FCE2C39032dEf101422b3f7     |
 | LRTOracle               | 0xf1BED40dbeE8FC0F324FA06322f2Bbd62d11c97d     |
 | ChainlinkPriceOracle    | 0xD73Cd1aaE045653474B873f3275BA2BE2744c8B4     |
@@ -191,7 +191,7 @@ $ npm test:coverage:report
 | Contract Name           | Proxy Address                                  |
 |-------------------------|------------------------------------------------|
 | LRTConfig               | 0x947Cb49334e6571ccBFEF1f1f1178d8469D65ec7     |
-| RSETH                   | 0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7     |
+| NovETH                   | 0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7     |
 | LRTDepositPool          | 0x036676389e48133B63a802f8635AD39E752D375D     |
 | LRTOracle               | 0x349A73444b1a310BAe67ef67973022020d70020d     |
 | ChainlinkPriceOracle    | 0x78C12ccE8346B936117655Dd3D70a2501Fd3d6e6     |
@@ -210,12 +210,12 @@ $ npm test:coverage:report
 #### ETH Mainnet
 | Contract Name           | Proxy Address                                  |
 |-------------------------|------------------------------------------------|
-| RSETHRateProvider       | 0xF1cccBa5558D31628216489A1435e068b1fd2C8A     |
+| NovETHRateProvider       | 0xF1cccBa5558D31628216489A1435e068b1fd2C8A     |
 | OneETHPriceOracle       | 0x4cB8d6DCd56d6b371210E70837753F2a835160c4     |
-| RSETHPriceFeed (Morph)  | 0x4B9C66c2C0d3706AabC6d00D2a6ffD2B68A4E383     |
+| NovETHPriceFeed (Morph)  | 0x4B9C66c2C0d3706AabC6d00D2a6ffD2B68A4E383     |
 
 #### Polygon ZKEVM
 | Contract Name           | Proxy Address                                  |
 |-------------------------|------------------------------------------------|
-| RSETHRateReceiver       |  0x4186BFC76E2E237523CBC30FD220FE055156b41F    |
+| NovETHRateReceiver       |  0x4186BFC76E2E237523CBC30FD220FE055156b41F    |
 

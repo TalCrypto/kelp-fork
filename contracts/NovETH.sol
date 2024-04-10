@@ -7,10 +7,10 @@ import { LRTConfigRoleChecker, ILRTConfig, LRTConstants } from "./utils/LRTConfi
 import { ERC20Upgradeable, Initializable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-/// @title rsETH token Contract
+/// @title novETH token Contract
 /// @author Stader Labs
-/// @notice The ERC20 contract for the rsETH token
-contract RSETH is Initializable, LRTConfigRoleChecker, ERC20Upgradeable, PausableUpgradeable {
+/// @notice The ERC20 contract for the novETH token
+contract NovETH is Initializable, LRTConfigRoleChecker, ERC20Upgradeable, PausableUpgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -23,22 +23,22 @@ contract RSETH is Initializable, LRTConfigRoleChecker, ERC20Upgradeable, Pausabl
         UtilLib.checkNonZeroAddress(admin);
         UtilLib.checkNonZeroAddress(lrtConfigAddr);
 
-        __ERC20_init("rsETH", "rsETH");
+        __ERC20_init("novETH", "novETH");
         __Pausable_init();
         lrtConfig = ILRTConfig(lrtConfigAddr);
         emit UpdatedLRTConfig(lrtConfigAddr);
     }
 
-    /// @notice Mints rsETH when called by an authorized caller
+    /// @notice Mints novETH when called by an authorized caller
     /// @param to the account to mint to
-    /// @param amount the amount of rsETH to mint
+    /// @param amount the amount of novETH to mint
     function mint(address to, uint256 amount) external onlyRole(LRTConstants.MINTER_ROLE) whenNotPaused {
         _mint(to, amount);
     }
 
-    /// @notice Burns rsETH when called by an authorized caller
+    /// @notice Burns novETH when called by an authorized caller
     /// @param account the account to burn from
-    /// @param amount the amount of rsETH to burn
+    /// @param amount the amount of novETH to burn
     function burnFrom(address account, uint256 amount) external onlyRole(LRTConstants.BURNER_ROLE) whenNotPaused {
         _burn(account, amount);
     }
@@ -50,7 +50,7 @@ contract RSETH is Initializable, LRTConfigRoleChecker, ERC20Upgradeable, Pausabl
     }
 
     /// @notice Returns to normal state.
-    /// @dev Only callable by the rsETH admin. Contract must be paused
+    /// @dev Only callable by the novETH admin. Contract must be paused
     function unpause() external onlyLRTAdmin {
         _unpause();
     }

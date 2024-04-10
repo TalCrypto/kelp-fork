@@ -16,9 +16,9 @@ async function main() {
       cbETH])
   console.log('LRT config deployed at ', lrtConfig.target)
 
-  const rsETHFactory = await ethers.getContractFactory('RSETH')
-  const rsETHToken = await upgrades.deployProxy(rsETHFactory, [deployer.address,lrtConfig.target])
-  console.log('rsETH Token deployed at ', rsETHToken.target)
+  const novETHFactory = await ethers.getContractFactory('NovETH')
+  const novETHToken = await upgrades.deployProxy(novETHFactory, [deployer.address,lrtConfig.target])
+  console.log('novETH Token deployed at ', novETHToken.target)
 
   const lrtDepositPoolFactory = await ethers.getContractFactory('LRTDepositPool')
   const lrtDepositPool = await upgrades.deployProxy(lrtDepositPoolFactory, [lrtConfig.target])

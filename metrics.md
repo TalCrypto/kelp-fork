@@ -52,14 +52,14 @@ Source Units in Scope: **`17`** (**100%**)
 | 📝 | contracts/LRTDepositPool.sol | 1 | **** | 233 | 201 | 109 | 60 | 112 | **<abbr title='Initiates ETH Value Transfer'>📤</abbr><abbr title='Unchecked Blocks'>Σ</abbr>** |
 | 📝 | contracts/LRTOracle.sol | 1 | **** | 100 | 93 | 53 | 21 | 43 | **<abbr title='Unchecked Blocks'>Σ</abbr>** |
 | 📝 | contracts/NodeDelegator.sol | 1 | **** | 135 | 109 | 65 | 24 | 105 | **<abbr title='Initiates ETH Value Transfer'>📤</abbr><abbr title='Unchecked Blocks'>Σ</abbr>** |
-| 📝 | contracts/RSETH.sol | 1 | **** | 66 | 66 | 35 | 21 | 43 | **** |
+| 📝 | contracts/NovETH.sol | 1 | **** | 66 | 66 | 35 | 21 | 43 | **** |
 | 🔍 | contracts/interfaces/IEigenStrategyManager.sol | **** | 1 | 29 | 22 | 4 | 20 | 5 | **** |
 | 🔍 | contracts/interfaces/ILRTConfig.sol | **** | 1 | 35 | 22 | 14 | 4 | 15 | **** |
 | 🔍 | contracts/interfaces/ILRTDepositPool.sol | **** | 1 | 39 | 19 | 13 | 3 | 19 | **** |
 | 🔍 | contracts/interfaces/ILRTOracle.sol | **** | 1 | 12 | 9 | 4 | 3 | 7 | **** |
 | 🔍 | contracts/interfaces/INodeDelegator.sol | **** | 1 | 21 | 14 | 6 | 4 | 9 | **** |
 | 🔍 | contracts/interfaces/IPriceFetcher.sol | **** | 1 | 10 | 8 | 4 | 2 | 5 | **** |
-| 🔍 | contracts/interfaces/IRSETH.sol | **** | 1 | 10 | 7 | 4 | 1 | 7 | **** |
+| 🔍 | contracts/interfaces/INovETH.sol | **** | 1 | 10 | 7 | 4 | 1 | 7 | **** |
 | 🔍 | contracts/interfaces/IStrategy.sol | **** | 1 | 92 | 22 | 4 | 65 | 23 | **** |
 | 📝🔍 | contracts/oracles/ChainlinkPriceOracle.sol | 1 | 1 | 65 | 55 | 31 | 14 | 35 | **** |
 | 🎨 | contracts/utils/LRTConfigRoleChecker.sol | 1 | **** | 59 | 59 | 39 | 9 | 28 | **** |
@@ -262,14 +262,14 @@ This section lists functions that are explicitly declared public or payable. Ple
 | contracts/LRTDepositPool.sol | [object Promise] |
 | contracts/LRTOracle.sol | [object Promise] |
 | contracts/NodeDelegator.sol | [object Promise] |
-| contracts/RSETH.sol | [object Promise] |
+| contracts/NovETH.sol | [object Promise] |
 | contracts/interfaces/IEigenStrategyManager.sol | [object Promise] |
 | contracts/interfaces/ILRTConfig.sol | [object Promise] |
 | contracts/interfaces/ILRTDepositPool.sol | [object Promise] |
 | contracts/interfaces/ILRTOracle.sol | [object Promise] |
 | contracts/interfaces/INodeDelegator.sol | [object Promise] |
 | contracts/interfaces/IPriceFetcher.sol | [object Promise] |
-| contracts/interfaces/IRSETH.sol | [object Promise] |
+| contracts/interfaces/INovETH.sol | [object Promise] |
 | contracts/interfaces/IStrategy.sol | [object Promise] |
 | contracts/oracles/ChainlinkPriceOracle.sol | [object Promise] |
 | contracts/utils/LRTConfigRoleChecker.sol | [object Promise] |
@@ -294,7 +294,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | getLSTToken | External ❗️ |   |NO❗️ |
 | └ | getContract | External ❗️ |   |NO❗️ |
 | └ | getSupportedAssetList | External ❗️ |   |NO❗️ |
-| └ | setRSETH | External ❗️ | 🛑  | onlyRole |
+| └ | setNovETH | External ❗️ | 🛑  | onlyRole |
 | └ | setToken | External ❗️ | 🛑  | onlyRole |
 | └ | _setToken | Private 🔐 | 🛑  | |
 | └ | setContract | External ❗️ | 🛑  | onlyRole |
@@ -321,7 +321,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | <Constructor> | Public ❗️ | 🛑  |NO❗️ |
 | └ | initialize | External ❗️ | 🛑  | initializer |
 | └ | getAssetPrice | Public ❗️ |   | onlySupportedAsset |
-| └ | updateRSETHPrice | External ❗️ | 🛑  |NO❗️ |
+| └ | updateNovETHPrice | External ❗️ | 🛑  |NO❗️ |
 | └ | updatePriceOracleFor | External ❗️ | 🛑  | onlyLRTManager onlySupportedAsset |
 ||||||
 | **NodeDelegator** | Implementation | INodeDelegator, LRTConfigRoleChecker, PausableUpgradeable, ReentrancyGuardUpgradeable |||
@@ -335,7 +335,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | pause | External ❗️ | 🛑  | onlyLRTManager |
 | └ | unpause | External ❗️ | 🛑  | onlyLRTAdmin |
 ||||||
-| **RSETH** | Implementation | Initializable, LRTConfigRoleChecker, ERC20Upgradeable, PausableUpgradeable |||
+| **NovETH** | Implementation | Initializable, LRTConfigRoleChecker, ERC20Upgradeable, PausableUpgradeable |||
 | └ | <Constructor> | Public ❗️ | 🛑  |NO❗️ |
 | └ | initialize | External ❗️ | 🛑  | initializer |
 | └ | mint | External ❗️ | 🛑  | onlyRole whenNotPaused |
@@ -349,7 +349,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | getDeposits | External ❗️ |   |NO❗️ |
 ||||||
 | **ILRTConfig** | Interface |  |||
-| └ | rsETH | External ❗️ |   |NO❗️ |
+| └ | novETH | External ❗️ |   |NO❗️ |
 | └ | assetStrategy | External ❗️ |   |NO❗️ |
 | └ | isSupportedAsset | External ❗️ |   |NO❗️ |
 | └ | getLSTToken | External ❗️ |   |NO❗️ |
@@ -371,7 +371,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | **ILRTOracle** | Interface |  |||
 | └ | getAssetPrice | External ❗️ |   |NO❗️ |
 | └ | assetPriceOracle | External ❗️ |   |NO❗️ |
-| └ | rsETHPrice | External ❗️ |   |NO❗️ |
+| └ | novETHPrice | External ❗️ |   |NO❗️ |
 ||||||
 | **INodeDelegator** | Interface |  |||
 | └ | depositAssetIntoStrategy | External ❗️ | 🛑  |NO❗️ |
@@ -383,7 +383,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | getAssetPrice | External ❗️ |   |NO❗️ |
 | └ | assetPriceFeed | External ❗️ |   |NO❗️ |
 ||||||
-| **IRSETH** | Interface | IERC20 |||
+| **INovETH** | Interface | IERC20 |||
 | └ | mint | External ❗️ | 🛑  |NO❗️ |
 | └ | burn | External ❗️ | 🛑  |NO❗️ |
 ||||||

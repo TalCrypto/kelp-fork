@@ -289,7 +289,7 @@
             "src": "contracts/LRTConfig.sol:21"
           },
           {
-            "label": "rsETH",
+            "label": "novETH",
             "offset": 0,
             "slot": "157",
             "type": "t_address",
@@ -555,7 +555,7 @@
             "src": "contracts/LRTOracle.sol:20"
           },
           {
-            "label": "rsETHPrice",
+            "label": "novETHPrice",
             "offset": 0,
             "slot": "2",
             "type": "t_uint256",
