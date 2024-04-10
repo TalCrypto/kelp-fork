@@ -98,7 +98,7 @@ contract NodeDelegatorTest is LRTConfigTest {
         operator = makeAddr("operator");
 
         // initialize LRTConfig
-        lrtConfig.initialize(admin, address(stETH), address(ethX), rsethMock);
+        lrtConfig.initialize(admin, address(stETH), address(ethX), novethMock);
 
         // add mockEigenStrategyManager to LRTConfig
         mockEigenStrategyManager = new MockEigenStrategyManager();

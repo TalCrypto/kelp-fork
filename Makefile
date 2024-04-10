@@ -24,11 +24,11 @@ deploy-lrt-depositPool-mainnet :; forge script script/foundry-scripts/DeployLRTD
 deploy-lrt-depositPool-local-test :; forge script script/foundry-scripts/DeployLRTDepositPool.s.sol:DeployLRTDepositPool --rpc-url localhost --private-key ${LOCAL_DEPLOYER_PRIVATE_KEY} --broadcast -vvv
 
 # deployment commands:NovETHRate
-deploy-rseth-rate-provider :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateProvider --rpc-url ${MAINNET_RPC_URL}   --private-key ${DEPLOYER_PRIVATE_KEY} --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify -vvv
+deploy-noveth-rate-provider :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateProvider --rpc-url ${MAINNET_RPC_URL}   --private-key ${DEPLOYER_PRIVATE_KEY} --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify -vvv
 
-deploy-rseth-rate-receiver :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateReceiver --rpc-url ${POLYGON_ZKEVM_RPC_URL}  --private-key ${DEPLOYER_PRIVATE_KEY} --broadcast --etherscan-api-key ${POLYSCAN_ZKEVM_API_KEY} --verify -vvv
+deploy-noveth-rate-receiver :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateReceiver --rpc-url ${POLYGON_ZKEVM_RPC_URL}  --private-key ${DEPLOYER_PRIVATE_KEY} --broadcast --etherscan-api-key ${POLYSCAN_ZKEVM_API_KEY} --verify -vvv
 
-deploy-rseth-rate-local-test :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateReceiver --rpc-url localhost --private-key ${LOCAL_DEPLOYER_PRIVATE_KEY} --broadcast -vvv
+deploy-noveth-rate-local-test :; forge script script/foundry-scripts/cross-chain/NovETHRate.s.sol:DeployNovETHRateReceiver --rpc-url localhost --private-key ${LOCAL_DEPLOYER_PRIVATE_KEY} --broadcast -vvv
 
 # upgrade commands
 upgrade-lrt-testnet :; forge script script/foundry-scripts/UpgradeLRT.s.sol:UpgradeLRT --rpc-url goerli  --private-key ${DEPLOYER_PRIVATE_KEY} --broadcast --etherscan-api-key ${ETHERSCAN_API_KEY} --verify -vvv

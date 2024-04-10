@@ -19,7 +19,7 @@ contract LRTIntegrationTest is Test {
 
     LRTDepositPool public lrtDepositPool;
     LRTConfig public lrtConfig;
-    NovETH public rseth;
+    NovETH public noveth;
     LRTOracle public lrtOracle;
     NodeDelegator public nodeDelegator1;
 
@@ -65,7 +65,7 @@ contract LRTIntegrationTest is Test {
 
         lrtDepositPool = LRTDepositPool(payable(0xd51d846ba5032b9284b12850373ae2f053f977b3));
         lrtConfig = LRTConfig(0x6d7888Bc794C1104C64c28F4e849B7AE68231b6d);
-        rseth = NovETH(0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56);
+        noveth = NovETH(0xb4EA9175e99232560ac5dC2Bcbe4d7C833a15D56);
         lrtOracle = LRTOracle(0xE92Ca437CA55AAbED0CBFFe398e384B997D4CCe9);
         nodeDelegator1 = NodeDelegator(payable(0x560B95A0Ba942A7E15645F655731244680fA030B));
 
@@ -125,7 +125,7 @@ contract LRTIntegrationTest is Test {
         uint256 amountToDeposit = 2 ether;
 
         // stWhale balance of novETH before deposit
-        uint256 stWhaleBalanceBefore = rseth.balanceOf(stWhale);
+        uint256 stWhaleBalanceBefore = noveth.balanceOf(stWhale);
         // total asset deposits before deposit for stETH
         uint256 totalAssetDepositsBefore = lrtDepositPool.getTotalAssetDeposits(stETHAddress);
         // balance of lrtDepositPool before deposit
@@ -141,7 +141,7 @@ contract LRTIntegrationTest is Test {
         console.log("whale stETH amount transfer:", whaleStETHBalBefore - whaleStETHBalAfter);
 
         // stWhale balance of novETH after deposit
-        uint256 stWhaleBalanceAfter = rseth.balanceOf(address(stWhale));
+        uint256 stWhaleBalanceAfter = noveth.balanceOf(address(stWhale));
 
         assertApproxEqAbs(
             lrtDepositPool.getTotalAssetDeposits(stETHAddress),
@@ -162,7 +162,7 @@ contract LRTIntegrationTest is Test {
         uint256 amountToDeposit = 2 ether;
 
         // ethXWhale balance of novETH before deposit
-        uint256 ethXWhaleBalanceBefore = rseth.balanceOf(ethXWhale);
+        uint256 ethXWhaleBalanceBefore = noveth.balanceOf(ethXWhale);
         // total asset deposits before deposit for ethXETH
         uint256 totalAssetDepositsBefore = lrtDepositPool.getTotalAssetDeposits(ethXAddress);
         // balance of lrtDepositPool before deposit
@@ -178,7 +178,7 @@ contract LRTIntegrationTest is Test {
         console.log("whale ethXETH amount transfer:", whaleethXBalBefore - whaleethXBalAfter);
 
         // ethXWhale balance of novETH after deposit
-        uint256 ethXWhaleBalanceAfter = rseth.balanceOf(address(ethXWhale));
+        uint256 ethXWhaleBalanceAfter = noveth.balanceOf(address(ethXWhale));
 
         assertEq(
             lrtDepositPool.getTotalAssetDeposits(ethXAddress),
@@ -390,7 +390,7 @@ contract LRTIntegrationTest is Test {
         // tokens
         assertEq(stETHAddress, lrtConfig.getLSTToken(LRTConstants.ST_ETH_TOKEN));
         assertEq(ethXAddress, lrtConfig.getLSTToken(LRTConstants.ETHX_TOKEN));
-        assertEq(address(rseth), lrtConfig.novETH());
+        assertEq(address(noveth), lrtConfig.novETH());
 
         assertTrue(lrtConfig.isSupportedAsset(stETHAddress));
         assertTrue(lrtConfig.isSupportedAsset(ethXAddress));
@@ -407,7 +407,7 @@ contract LRTIntegrationTest is Test {
     function test_LRTConfigIsAlreadyInitialized() public {
         // attempt to initialize LRTConfig again reverts
         vm.expectRevert("Initializable: contract is already initialized");
-        lrtConfig.initialize(admin, stETHAddress, ethXAddress, address(rseth));
+        lrtConfig.initialize(admin, stETHAddress, ethXAddress, address(noveth));
     }
 
     function test_RevertWhenCallingAddNewAssetByANonLRTManager() external {
@@ -637,49 +637,49 @@ contract LRTIntegrationTest is Test {
         assertTrue(lrtConfig.hasRole(LRTConstants.MINTER_ROLE, address(lrtDepositPool)));
 
         // check if lrtConfig is set in novETH
-        assertEq(address(rseth.lrtConfig()), address(lrtConfig));
+        assertEq(address(noveth.lrtConfig()), address(lrtConfig));
     }
 
     function test_NovETHIsAlreadyInitialized() public {
         // attempt to initialize NovETH again reverts
         vm.expectRevert("Initializable: contract is already initialized");
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
     }
 
     function test_RevertWhenCallerIsNotLRTManager() external {
         vm.expectRevert(ILRTConfig.CallerNotLRTConfigManager.selector);
-        rseth.pause();
+        noveth.pause();
     }
 
     function test_RevertWhenContractIsAlreadyPaused() external {
         vm.startPrank(manager);
-        rseth.pause();
+        noveth.pause();
 
         vm.expectRevert("Pausable: paused");
-        rseth.pause();
+        noveth.pause();
 
         vm.stopPrank();
     }
 
     function test_Pause() external {
         vm.startPrank(manager);
-        rseth.pause();
+        noveth.pause();
 
         vm.stopPrank();
 
-        assertTrue(rseth.paused(), "Contract is not paused");
+        assertTrue(noveth.paused(), "Contract is not paused");
     }
 
     function test_Unpause() external {
         vm.prank(manager);
-        rseth.pause();
+        noveth.pause();
 
-        assertTrue(rseth.paused(), "Contract is not paused");
+        assertTrue(noveth.paused(), "Contract is not paused");
 
         vm.prank(admin);
-        rseth.unpause();
+        noveth.unpause();
 
-        assertFalse(rseth.paused(), "Contract is not unpaused");
+        assertFalse(noveth.paused(), "Contract is not unpaused");
     }
 
     function test_NodeDelegatorIsAlreadyInitialized() public {

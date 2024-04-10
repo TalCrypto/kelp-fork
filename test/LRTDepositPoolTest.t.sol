@@ -79,7 +79,7 @@ contract LRTDepositPoolTest is BaseTest, NovETHTest {
     uint256 public minimunAmountOfNovETHToReceive;
     string public referralId;
 
-    event ETHDeposit(address indexed depositor, uint256 depositAmount, uint256 rsethMintAmount, string referralId);
+    event ETHDeposit(address indexed depositor, uint256 depositAmount, uint256 novethMintAmount, string referralId);
 
     function setUp() public virtual override(NovETHTest, BaseTest) {
         super.setUp();
@@ -93,14 +93,14 @@ contract LRTDepositPoolTest is BaseTest, NovETHTest {
         lrtDepositPool = LRTDepositPool(payable(contractProxy));
 
         // initialize NovETH. LRTCOnfig is already initialized in NovETHTest
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
         vm.startPrank(admin);
         // add novETH to LRT config
-        lrtConfig.setNovETH(address(rseth));
+        lrtConfig.setNovETH(address(noveth));
         // add oracle to LRT config
         lrtConfig.setContract(LRTConstants.LRT_ORACLE, address(new LRTOracleMock()));
 
-        // add minter role for rseth to lrtDepositPool
+        // add minter role for noveth to lrtDepositPool
         lrtConfig.grantRole(LRTConstants.MINTER_ROLE, address(lrtDepositPool));
 
         vm.stopPrank();
@@ -168,16 +168,16 @@ contract LRTDepositPoolDepositETH is LRTDepositPoolTest {
         vm.startPrank(alice);
 
         // alice balance of novETH before deposit
-        uint256 aliceBalanceBefore = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceBefore = noveth.balanceOf(address(alice));
 
-        minimunAmountOfNovETHToReceive = lrtDepositPool.getRsETHAmountToMint(LRTConstants.ETH_TOKEN, 1 ether);
+        minimunAmountOfNovETHToReceive = lrtDepositPool.getNovETHAmountToMint(LRTConstants.ETH_TOKEN, 1 ether);
 
         expectEmit();
         emit ETHDeposit(alice, 1 ether, minimunAmountOfNovETHToReceive, referralId);
         lrtDepositPool.depositETH{ value: 1 ether }(minimunAmountOfNovETHToReceive, referralId);
 
         // alice balance of novETH after deposit
-        uint256 aliceBalanceAfter = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceAfter = noveth.balanceOf(address(alice));
         vm.stopPrank();
 
         assertEq(address(lrtDepositPool).balance, 1 ether, "Total ETH deposits is not set");
@@ -244,15 +244,15 @@ contract LRTDepositPoolDepositAsset is LRTDepositPoolTest {
         vm.startPrank(alice);
 
         // alice balance of novETH before deposit
-        uint256 aliceBalanceBefore = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceBefore = noveth.balanceOf(address(alice));
 
-        minimunAmountOfNovETHToReceive = lrtDepositPool.getRsETHAmountToMint(ethXAddress, 2 ether);
+        minimunAmountOfNovETHToReceive = lrtDepositPool.getNovETHAmountToMint(ethXAddress, 2 ether);
 
         ethX.approve(address(lrtDepositPool), 2 ether);
         lrtDepositPool.depositAsset(ethXAddress, 2 ether, minimunAmountOfNovETHToReceive, referralId);
 
         // alice balance of novETH after deposit
-        uint256 aliceBalanceAfter = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceAfter = noveth.balanceOf(address(alice));
         vm.stopPrank();
 
         assertEq(lrtDepositPool.getTotalAssetDeposits(ethXAddress), 2 ether, "Total asset deposits is not set");
@@ -263,14 +263,14 @@ contract LRTDepositPoolDepositAsset is LRTDepositPoolTest {
         uint256 stETHDepositLimit = lrtConfig.depositLimitByAsset(address(stETH));
         vm.assume(amountDeposited > 0 && amountDeposited <= stETHDepositLimit);
 
-        uint256 aliceBalanceBefore = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceBefore = noveth.balanceOf(address(alice));
 
         vm.startPrank(alice);
         stETH.approve(address(lrtDepositPool), amountDeposited);
         lrtDepositPool.depositAsset(address(stETH), amountDeposited, minimunAmountOfNovETHToReceive, referralId);
         vm.stopPrank();
 
-        uint256 aliceBalanceAfter = rseth.balanceOf(address(alice));
+        uint256 aliceBalanceAfter = noveth.balanceOf(address(alice));
 
         assertEq(
             lrtDepositPool.getTotalAssetDeposits(address(stETH)), amountDeposited, "Total asset deposits is not set"
@@ -279,7 +279,7 @@ contract LRTDepositPoolDepositAsset is LRTDepositPoolTest {
     }
 }
 
-contract LRTDepositPoolGetRsETHAmountToMint is LRTDepositPoolTest {
+contract LRTDepositPoolGetNovETHAmountToMint is LRTDepositPoolTest {
     address public ethXAddress;
 
     function setUp() public override {
@@ -291,26 +291,26 @@ contract LRTDepositPoolGetRsETHAmountToMint is LRTDepositPoolTest {
         ethXAddress = address(ethX);
     }
 
-    function test_GetRsETHAmountToMintWhenAssetIsLST() external {
+    function test_GetNovETHAmountToMintWhenAssetIsLST() external {
         uint256 amountToDeposit = 1 ether;
         vm.startPrank(manager);
         lrtConfig.updateAssetDepositLimit(ethXAddress, amountToDeposit);
         vm.stopPrank();
 
         assertEq(
-            lrtDepositPool.getRsETHAmountToMint(ethXAddress, amountToDeposit),
+            lrtDepositPool.getNovETHAmountToMint(ethXAddress, amountToDeposit),
             1 ether,
-            "RsETH amount to mint is incorrect"
+            "NovETH amount to mint is incorrect"
         );
     }
 
-    function test_GetRsETHAmountToMintWhenAssetisNativeETH() external {
+    function test_GetNovETHAmountToMintWhenAssetisNativeETH() external {
         uint256 amountToDeposit = 1 ether;
 
         assertEq(
-            lrtDepositPool.getRsETHAmountToMint(address(0), amountToDeposit),
+            lrtDepositPool.getNovETHAmountToMint(address(0), amountToDeposit),
             1 ether,
-            "RsETH amount to mint is incorrect"
+            "NovETH amount to mint is incorrect"
         );
     }
 }

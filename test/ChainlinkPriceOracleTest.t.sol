@@ -31,7 +31,7 @@ contract ChainlinkPriceOracleTest is LRTConfigTest {
         super.setUp();
 
         // initialize LRTConfig
-        lrtConfig.initialize(admin, address(stETH), address(ethX), rsethMock);
+        lrtConfig.initialize(admin, address(stETH), address(ethX), novethMock);
         // add manager role
         vm.prank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);

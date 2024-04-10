@@ -307,9 +307,9 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | getAssetCurrentLimit | Public ❗️ |   |NO❗️ |
 | └ | getNodeDelegatorQueue | External ❗️ |   |NO❗️ |
 | └ | getAssetDistributionData | Public ❗️ |   | onlySupportedAsset |
-| └ | getRsETHAmountToMint | Public ❗️ |   |NO❗️ |
+| └ | getNovETHAmountToMint | Public ❗️ |   |NO❗️ |
 | └ | depositAsset | External ❗️ | 🛑  | whenNotPaused nonReentrant onlySupportedAsset |
-| └ | _mintRsETH | Private 🔐 | 🛑  | |
+| └ | _mintNovETH | Private 🔐 | 🛑  | |
 | └ | addNodeDelegatorContractToQueue | External ❗️ | 🛑  | onlyLRTAdmin |
 | └ | transferAssetToNodeDelegator | External ❗️ | 🛑  | nonReentrant onlyLRTManager onlySupportedAsset |
 | └ | updateMaxNodeDelegatorCount | External ❗️ | 🛑  | onlyLRTAdmin |
@@ -361,7 +361,7 @@ This section lists functions that are explicitly declared public or payable. Ple
 | └ | depositAsset | External ❗️ | 🛑  |NO❗️ |
 | └ | getTotalAssetDeposits | External ❗️ |   |NO❗️ |
 | └ | getAssetCurrentLimit | External ❗️ |   |NO❗️ |
-| └ | getRsETHAmountToMint | External ❗️ |   |NO❗️ |
+| └ | getNovETHAmountToMint | External ❗️ |   |NO❗️ |
 | └ | addNodeDelegatorContractToQueue | External ❗️ | 🛑  |NO❗️ |
 | └ | transferAssetToNodeDelegator | External ❗️ | 🛑  |NO❗️ |
 | └ | updateMaxNodeDelegatorCount | External ❗️ | 🛑  |NO❗️ |

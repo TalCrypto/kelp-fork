@@ -36,7 +36,7 @@ contract LRTIntegrationTestETHMainnet is LRTIntegrationTest {
 
         lrtDepositPool = LRTDepositPool(payable(0x036676389e48133B63a802f8635AD39E752D375D));
         lrtConfig = LRTConfig(0x947Cb49334e6571ccBFEF1f1f1178d8469D65ec7);
-        rseth = NovETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
+        noveth = NovETH(0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7);
         lrtOracle = LRTOracle(0x349A73444b1a310BAe67ef67973022020d70020d);
         nodeDelegator1 = NodeDelegator(payable(0x07b96Cf1183C9BFf2E43Acf0E547a8c4E4429473));
 

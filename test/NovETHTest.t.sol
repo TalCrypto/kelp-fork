@@ -9,7 +9,7 @@ import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/trans
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 
 contract NovETHTest is BaseTest, LRTConfigTest {
-    NovETH public rseth;
+    NovETH public noveth;
 
     event UpdatedLRTConfig(address indexed _lrtConfig);
 
@@ -17,36 +17,36 @@ contract NovETHTest is BaseTest, LRTConfigTest {
         super.setUp();
 
         // initialize LRTConfig
-        lrtConfig.initialize(admin, address(stETH), address(ethX), rsethMock);
+        lrtConfig.initialize(admin, address(stETH), address(ethX), novethMock);
 
         ProxyAdmin proxyAdmin = new ProxyAdmin();
         NovETH tokenImpl = new NovETH();
         TransparentUpgradeableProxy tokenProxy =
             new TransparentUpgradeableProxy(address(tokenImpl), address(proxyAdmin), "");
 
-        rseth = NovETH(address(tokenProxy));
+        noveth = NovETH(address(tokenProxy));
     }
 }
 
 contract NovETHInitialize is NovETHTest {
     function test_RevertWhenAdminIsZeroAddress() external {
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        rseth.initialize(address(0), address(lrtConfig));
+        noveth.initialize(address(0), address(lrtConfig));
     }
 
     function test_RevertWhenLRTConfigIsZeroAddress() external {
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        rseth.initialize(address(admin), address(0));
+        noveth.initialize(address(admin), address(0));
     }
 
     function test_InitializeContractsVariables() external {
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
 
         assertTrue(lrtConfig.hasRole(LRTConstants.DEFAULT_ADMIN_ROLE, admin), "Admin address is not set");
-        assertEq(address(lrtConfig), address(rseth.lrtConfig()), "LRT config address is not set");
+        assertEq(address(lrtConfig), address(noveth.lrtConfig()), "LRT config address is not set");
 
-        assertEq(rseth.name(), "novETH", "Name is not set");
-        assertEq(rseth.symbol(), "novETH", "Symbol is not set");
+        assertEq(noveth.name(), "novETH", "Name is not set");
+        assertEq(noveth.symbol(), "novETH", "Symbol is not set");
     }
 }
 
@@ -56,7 +56,7 @@ contract NovETHMint is NovETHTest {
     function setUp() public override {
         super.setUp();
 
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -72,18 +72,18 @@ contract NovETHMint is NovETHTest {
 
         vm.expectRevert(revertData);
 
-        rseth.mint(address(this), 100 ether);
+        noveth.mint(address(this), 100 ether);
         vm.stopPrank();
     }
 
     function test_RevertMintIsPaused() external {
         vm.startPrank(manager);
-        rseth.pause();
+        noveth.pause();
         vm.stopPrank();
 
         vm.startPrank(minter);
         vm.expectRevert("Pausable: paused");
-        rseth.mint(address(this), 1 ether);
+        noveth.mint(address(this), 1 ether);
         vm.stopPrank();
     }
 
@@ -96,9 +96,9 @@ contract NovETHMint is NovETHTest {
 
         vm.startPrank(minter);
 
-        rseth.mint(address(this), 100 ether);
+        noveth.mint(address(this), 100 ether);
 
-        assertEq(rseth.balanceOf(address(this)), 100 ether, "Balance is not correct");
+        assertEq(noveth.balanceOf(address(this)), 100 ether, "Balance is not correct");
 
         vm.stopPrank();
     }
@@ -109,7 +109,7 @@ contract NovETHBurnFrom is NovETHTest {
 
     function setUp() public override {
         super.setUp();
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -117,7 +117,7 @@ contract NovETHBurnFrom is NovETHTest {
 
         // give minter role to admin
         lrtConfig.grantRole(LRTConstants.MINTER_ROLE, admin);
-        rseth.mint(address(this), 100 ether);
+        noveth.mint(address(this), 100 ether);
 
         vm.stopPrank();
     }
@@ -130,31 +130,31 @@ contract NovETHBurnFrom is NovETHTest {
 
         vm.expectRevert(revertData);
 
-        rseth.burnFrom(address(this), 100 ether);
+        noveth.burnFrom(address(this), 100 ether);
         vm.stopPrank();
     }
 
     function test_RevertBurnIsPaused() external {
         vm.prank(manager);
-        rseth.pause();
+        noveth.pause();
 
         vm.prank(burner);
         vm.expectRevert("Pausable: paused");
-        rseth.burnFrom(address(this), 100 ether);
+        noveth.burnFrom(address(this), 100 ether);
     }
 
     function test_BurnFrom() external {
         vm.prank(burner);
-        rseth.burnFrom(address(this), 100 ether);
+        noveth.burnFrom(address(this), 100 ether);
 
-        assertEq(rseth.balanceOf(address(this)), 0, "Balance is not correct");
+        assertEq(noveth.balanceOf(address(this)), 0, "Balance is not correct");
     }
 }
 
 contract NovETHPause is NovETHTest {
     function setUp() public override {
         super.setUp();
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -166,38 +166,38 @@ contract NovETHPause is NovETHTest {
 
         vm.expectRevert(ILRTConfig.CallerNotLRTConfigManager.selector);
 
-        rseth.pause();
+        noveth.pause();
         vm.stopPrank();
     }
 
     function test_RevertWhenContractIsAlreadyPaused() external {
         vm.startPrank(manager);
-        rseth.pause();
+        noveth.pause();
 
         vm.expectRevert("Pausable: paused");
-        rseth.pause();
+        noveth.pause();
 
         vm.stopPrank();
     }
 
     function test_Pause() external {
         vm.startPrank(manager);
-        rseth.pause();
+        noveth.pause();
 
         vm.stopPrank();
 
-        assertTrue(rseth.paused(), "Contract is not paused");
+        assertTrue(noveth.paused(), "Contract is not paused");
     }
 }
 
 contract NovETHUnpause is NovETHTest {
     function setUp() public override {
         super.setUp();
-        rseth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(admin), address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, admin);
-        rseth.pause();
+        noveth.pause();
         vm.stopPrank();
     }
 
@@ -206,26 +206,26 @@ contract NovETHUnpause is NovETHTest {
 
         vm.expectRevert(ILRTConfig.CallerNotLRTConfigAdmin.selector);
 
-        rseth.unpause();
+        noveth.unpause();
         vm.stopPrank();
     }
 
     function test_RevertWhenContractIsNotPaused() external {
         vm.startPrank(admin);
-        rseth.unpause();
+        noveth.unpause();
 
         vm.expectRevert("Pausable: not paused");
-        rseth.unpause();
+        noveth.unpause();
 
         vm.stopPrank();
     }
 
     function test_Unpause() external {
         vm.startPrank(admin);
-        rseth.unpause();
+        noveth.unpause();
 
         vm.stopPrank();
 
-        assertFalse(rseth.paused(), "Contract is still paused");
+        assertFalse(noveth.paused(), "Contract is still paused");
     }
 }

@@ -79,7 +79,7 @@ end_of_record
 TN:
 SF:contracts/LRTDepositPool.sol
 FN:111,LRTDepositPool.depositAsset
-FN:146,LRTDepositPool._mintRsETH
+FN:146,LRTDepositPool._mintNovETH
 FN:157,LRTDepositPool.addNodeDelegatorContractToQueue
 FN:178,LRTDepositPool.transferAssetToNodeDelegator
 FN:197,LRTDepositPool.updateMaxNodeDelegatorCount
@@ -89,9 +89,9 @@ FN:32,LRTDepositPool.initialize
 FN:48,LRTDepositPool.getAssetCurrentLimit
 FN:54,LRTDepositPool.getNodeDelegatorQueue
 FN:63,LRTDepositPool.getAssetDistributionData
-FN:87,LRTDepositPool.getRsETHAmountToMint
+FN:87,LRTDepositPool.getNovETHAmountToMint
 FNDA:7,LRTDepositPool.depositAsset
-FNDA:4,LRTDepositPool._mintRsETH
+FNDA:4,LRTDepositPool._mintNovETH
 FNDA:15,LRTDepositPool.addNodeDelegatorContractToQueue
 FNDA:2,LRTDepositPool.transferAssetToNodeDelegator
 FNDA:2,LRTDepositPool.updateMaxNodeDelegatorCount
@@ -101,7 +101,7 @@ FNDA:2,LRTDepositPool.initialize
 FNDA:2,LRTDepositPool.getAssetCurrentLimit
 FNDA:1,LRTDepositPool.getNodeDelegatorQueue
 FNDA:1,LRTDepositPool.getAssetDistributionData
-FNDA:1,LRTDepositPool.getRsETHAmountToMint
+FNDA:1,LRTDepositPool.getNovETHAmountToMint
 FNF:12
 FNH:12
 DA:33,2
