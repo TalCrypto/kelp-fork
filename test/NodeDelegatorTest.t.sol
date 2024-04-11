@@ -289,7 +289,7 @@ contract NodeDelegatorTransferBackToLRTDepositPool is NodeDelegatorTest {
     function setUp() public override {
         super.setUp();
         vm.prank(admin);
-        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN, 100_000 ether);
+        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN_ADDRESS, 100_000 ether);
         nodeDel.initialize(address(lrtConfig));
 
         // transfer ethX to NodeDelegator
@@ -348,7 +348,7 @@ contract NodeDelegatorTransferBackToLRTDepositPool is NodeDelegatorTest {
 
         // transfer funds in NodeDelegator to to LRTDepositPool
         vm.prank(manager);
-        nodeDel.transferBackToLRTDepositPool(LRTConstants.ETH_TOKEN, amountToDeposit);
+        nodeDel.transferBackToLRTDepositPool(LRTConstants.ETH_TOKEN_ADDRESS, amountToDeposit);
 
         uint256 nodeDelBalanceAfter = address(nodeDel).balance;
 

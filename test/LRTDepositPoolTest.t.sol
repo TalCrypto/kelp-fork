@@ -112,7 +112,7 @@ contract LRTDepositPoolTest is BaseTest, NovETHTest {
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
         // set ETH as supported token
-        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN, 100_000 ether);
+        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN_ADDRESS, 100_000 ether);
         vm.stopPrank();
     }
 }
@@ -170,7 +170,7 @@ contract LRTDepositPoolDepositETH is LRTDepositPoolTest {
         // alice balance of novETH before deposit
         uint256 aliceBalanceBefore = noveth.balanceOf(address(alice));
 
-        minimunAmountOfNovETHToReceive = lrtDepositPool.getNovETHAmountToMint(LRTConstants.ETH_TOKEN, 1 ether);
+        minimunAmountOfNovETHToReceive = lrtDepositPool.getNovETHAmountToMint(LRTConstants.ETH_TOKEN_ADDRESS, 1 ether);
 
         expectEmit();
         emit ETHDeposit(alice, 1 ether, minimunAmountOfNovETHToReceive, referralId);
@@ -530,7 +530,7 @@ contract LRTDepositPoolGetETHDistributionData is LRTDepositPoolTest {
 
         // check using getAssetDistributionData
         (ethLyingInDepositPool, ethLyingInNDCs, ethStakedInEigenLayer) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
 
         assertEq(ethLyingInDepositPool, 5 ether, "ETH lying in deposit pool is not set");
         assertEq(ethLyingInNDCs, 0, "ETH lying in NDCs is not set");

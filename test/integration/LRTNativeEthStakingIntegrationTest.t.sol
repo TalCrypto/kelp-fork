@@ -55,12 +55,12 @@ contract LRTNativeEthStakingIntegrationTest is Test {
 
         // Add eth as supported asset
         vm.prank(admin);
-        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN, 100_000 ether);
+        lrtConfig.addNewSupportedAsset(LRTConstants.ETH_TOKEN_ADDRESS, 100_000 ether);
 
         // add oracle for ETH
         address oneETHOracle = address(new OneETHPriceOracle());
         vm.startPrank(manager);
-        lrtOracle.updatePriceOracleFor(LRTConstants.ETH_TOKEN, oneETHOracle);
+        lrtOracle.updatePriceOracleFor(LRTConstants.ETH_TOKEN_ADDRESS, oneETHOracle);
         vm.stopPrank();
     }
 
@@ -101,7 +101,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
             uint256 assetLyingInDepositPoolInitially,
             uint256 assetLyingInNDCsInitially,
             uint256 assetStakedInEigenLayerInitially
-        ) = lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+        ) = lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
 
         uint256 depositAmount = 66 ether;
         vm.prank(alice);
@@ -110,7 +110,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
         uint256 aliceBalanceAfter = alice.balance;
         uint256 depositPoolBalanceAfter = address(lrtDepositPool).balance;
         (uint256 assetLyingInDepositPoolNow, uint256 assetLyingInNDCsNow, uint256 assetStakedInEigenLayerNow) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
 
         assertEq(aliceBalanceAfter, aliceBalanceBefore - depositAmount);
         assertEq(depositPoolBalanceAfter, depositPoolBalanceBefore + depositAmount);
@@ -127,7 +127,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
         lrtDepositPool.transferETHToNodeDelegator(0, depositAmount);
 
         (assetLyingInDepositPoolNow, assetLyingInNDCsNow, assetStakedInEigenLayerNow) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
         assertEq(assetLyingInDepositPoolNow, assetLyingInDepositPoolInitially);
         assertEq(assetLyingInNDCsNow, assetLyingInNDCsInitially + depositAmount, "eth not transferred to ndc 0");
         assertEq(assetStakedInEigenLayerNow, assetStakedInEigenLayerInitially);
@@ -153,7 +153,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
         nodeDelegator1.stake32Eth(pubkey, signature, depositDataRoot);
 
         (assetLyingInDepositPoolNow, assetLyingInNDCsNow, assetStakedInEigenLayerNow) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
         assertEq(assetLyingInDepositPoolNow, assetLyingInDepositPoolInitially);
         assertEq(assetLyingInNDCsNow, assetLyingInNDCsInitially + depositAmount - 32 ether);
         assertEq(
@@ -174,7 +174,7 @@ contract LRTNativeEthStakingIntegrationTest is Test {
         nodeDelegator1.stake32Eth(pubkey, signature, depositDataRoot);
 
         (assetLyingInDepositPoolNow, assetLyingInNDCsNow, assetStakedInEigenLayerNow) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
         assertEq(assetLyingInDepositPoolNow, assetLyingInDepositPoolInitially);
         assertEq(assetLyingInNDCsNow, assetLyingInNDCsInitially + depositAmount - 64 ether);
         assertEq(
@@ -185,10 +185,10 @@ contract LRTNativeEthStakingIntegrationTest is Test {
 
         // transfer 2 ether back to deposit pool
         vm.prank(manager);
-        nodeDelegator1.transferBackToLRTDepositPool(LRTConstants.ETH_TOKEN, 2 ether);
+        nodeDelegator1.transferBackToLRTDepositPool(LRTConstants.ETH_TOKEN_ADDRESS, 2 ether);
 
         (assetLyingInDepositPoolNow, assetLyingInNDCsNow, assetStakedInEigenLayerNow) =
-            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN);
+            lrtDepositPool.getAssetDistributionData(LRTConstants.ETH_TOKEN_ADDRESS);
         assertEq(assetLyingInDepositPoolNow, assetLyingInDepositPoolInitially + 2 ether);
         assertEq(assetLyingInNDCsNow, assetLyingInNDCsInitially);
         assertEq(

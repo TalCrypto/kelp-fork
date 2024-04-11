@@ -81,7 +81,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         onlySupportedAsset(asset)
         returns (uint256 assetLyingInDepositPool, uint256 assetLyingInNDCs, uint256 assetStakedInEigenLayer)
     {
-        if (asset == LRTConstants.ETH_TOKEN) {
+        if (asset == LRTConstants.ETH_TOKEN_ADDRESS) {
             return getETHDistributionData();
         }
         assetLyingInDepositPool = IERC20(asset).balanceOf(address(this));
@@ -153,7 +153,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
         nonReentrant
     {
         // checks
-        uint256 novethAmountToMint = _beforeDeposit(LRTConstants.ETH_TOKEN, msg.value, minNovETHAmountExpected);
+        uint256 novethAmountToMint = _beforeDeposit(LRTConstants.ETH_TOKEN_ADDRESS, msg.value, minNovETHAmountExpected);
 
         // interactions
         _mintNovETH(novethAmountToMint);
@@ -286,7 +286,7 @@ contract LRTDepositPool is ILRTDepositPool, LRTConfigRoleChecker, PausableUpgrad
 
         uint256 assetBalance;
         for (uint256 i; i < supportedAssetsLength; i++) {
-            if (supportedAssets[i] == LRTConstants.ETH_TOKEN) {
+            if (supportedAssets[i] == LRTConstants.ETH_TOKEN_ADDRESS) {
                 // ETH already checked above.
                 continue;
             }

@@ -28,7 +28,7 @@ contract NovETHPriceFeed is AggregatorV3Interface {
     AggregatorV3Interface public immutable ETH_TO_USD;
 
     /// @notice novETH oracle contract
-    INovETHOracle public immutable RS_ETH_ORACLE;
+    INovETHOracle public immutable NOV_ETH_ORACLE;
 
     string public description;
 
@@ -37,7 +37,7 @@ contract NovETHPriceFeed is AggregatorV3Interface {
     /// @param description_ priceFeed description (NovETH / USD)
     constructor(address ethToUSDAggregatorAddress, address novETHOracle, string memory description_) {
         ETH_TO_USD = AggregatorV3Interface(ethToUSDAggregatorAddress);
-        RS_ETH_ORACLE = INovETHOracle(novETHOracle);
+        NOV_ETH_ORACLE = INovETHOracle(novETHOracle);
 
         description = description_;
     }
@@ -57,7 +57,7 @@ contract NovETHPriceFeed is AggregatorV3Interface {
     {
         (roundId, answer, startedAt, updatedAt, answeredInRound) = ETH_TO_USD.getRoundData(_roundId);
 
-        answer = int256(RS_ETH_ORACLE.novETHPrice()) * answer / 1e18;
+        answer = int256(NOV_ETH_ORACLE.novETHPrice()) * answer / 1e18;
     }
 
     function latestRoundData()
@@ -66,6 +66,6 @@ contract NovETHPriceFeed is AggregatorV3Interface {
         returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
     {
         (roundId, answer, startedAt, updatedAt, answeredInRound) = ETH_TO_USD.latestRoundData();
-        answer = int256(RS_ETH_ORACLE.novETHPrice()) * answer / 1e18;
+        answer = int256(NOV_ETH_ORACLE.novETHPrice()) * answer / 1e18;
     }
 }

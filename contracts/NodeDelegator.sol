@@ -107,7 +107,7 @@ contract NodeDelegator is INodeDelegator, LRTConfigRoleChecker, PausableUpgradea
         address lrtDepositPool = lrtConfig.getContract(LRTConstants.LRT_DEPOSIT_POOL);
 
         bool success;
-        if (asset == LRTConstants.ETH_TOKEN) {
+        if (asset == LRTConstants.ETH_TOKEN_ADDRESS) {
             (success,) = payable(lrtDepositPool).call{ value: amount }("");
         } else {
             success = IERC20(asset).transfer(lrtDepositPool, amount);
@@ -272,17 +272,17 @@ contract NodeDelegator is INodeDelegator, LRTConfigRoleChecker, PausableUpgradea
 
     /// @dev Approves the SSV Network contract to transfer SSV tokens for deposits
     function approveSSV() external onlyLRTManager {
-        address SSV_TOKEN_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_TOKEN);
-        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+        address ssvTokenAddress = lrtConfig.getContract(LRTConstants.SSV_TOKEN);
+        address ssvNetworkAddress = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
 
-        IERC20(SSV_TOKEN_ADDRESS).approve(SSV_NETWORK_ADDRESS, type(uint256).max);
+        IERC20(ssvTokenAddress).approve(ssvNetworkAddress, type(uint256).max);
     }
 
     /// @dev Deposits more SSV Tokens to the SSV Network contract which is used to pay the SSV Operators
     function depositSSV(uint64[] memory operatorIds, uint256 amount, Cluster memory cluster) external onlyLRTManager {
-        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+        address ssvNetworkAddress = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
 
-        ISSVNetwork(SSV_NETWORK_ADDRESS).deposit(address(this), operatorIds, amount, cluster);
+        ISSVNetwork(ssvNetworkAddress).deposit(address(this), operatorIds, amount, cluster);
     }
 
     function registerSsvValidator(
@@ -296,9 +296,9 @@ contract NodeDelegator is INodeDelegator, LRTConfigRoleChecker, PausableUpgradea
         onlyLRTOperator
         whenNotPaused
     {
-        address SSV_NETWORK_ADDRESS = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
+        address ssvNetworkAddress = lrtConfig.getContract(LRTConstants.SSV_NETWORK);
 
-        ISSVNetwork(SSV_NETWORK_ADDRESS).registerValidator(publicKey, operatorIds, sharesData, amount, cluster);
+        ISSVNetwork(ssvNetworkAddress).registerValidator(publicKey, operatorIds, sharesData, amount, cluster);
     }
 
     /// @dev allow NodeDelegator to receive ETH
