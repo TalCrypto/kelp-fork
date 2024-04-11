@@ -14,7 +14,7 @@ library Addresses {
     address public constant PROXY_FACTORY = 0x279b272E8266D2fd87e64739A8ecD4A5c94F953D;
     address public constant PROXY_ADMIN = 0xF83cacA1bC89e4C7f93bd17c193cD98fEcc6d758;
 
-    address public constant PRIME_STAKED_ETH = 0x6ef3D766Dfe02Dc4bF04aAe9122EB9A0Ded25615;
+    address public constant NOV_ETH = 0x6ef3D766Dfe02Dc4bF04aAe9122EB9A0Ded25615;
 
     address public constant LRT_CONFIG = 0xF879c7859b6DE6FAdaFB74224Ff05b16871646bF;
     address public constant LRT_ORACLE = 0xA755c18CD2376ee238daA5Ce88AcF17Ea74C1c32;
@@ -22,7 +22,6 @@ library Addresses {
     address public constant NODE_DELEGATOR = 0x8bBBCB5F4D31a6db3201D40F478f30Dc4F704aE2;
     address public constant NODE_DELEGATOR_NATIVE_STAKING = 0x18169Ee0CED9AA744F3CD01Adc6E2EB2E8FB0087;
     address public constant EIGEN_POD = 0x42791AA09bF53b5D2c0c74ac948e74a66A2fe35e;
-    address public constant PRIME_ZAPPER = 0x3cf4Db4c59dCB082d1A9719C54dF3c04Db93C6b7;
 
     address public constant CHAINLINK_ORACLE_PROXY = 0xE238124CD0E1D15D1Ab08DB86dC33BDFa545bF09;
 
@@ -84,7 +83,7 @@ library AddressesHolesky {
     // address public constant PROXY_FACTORY = 0xa3e5910f3cc6d694A7191699d145818301E37ae0;
     // address public constant PROXY_ADMIN = 0xf8daD2780030De2E77c476F242459Fc7a543F433;
 
-    // address public constant PRIME_STAKED_ETH = 0x01472AD5c3356433a3B3A6731a8E8742F0018a23;
+    // address public constant NOV_ETH = 0x01472AD5c3356433a3B3A6731a8E8742F0018a23;
 
     // address public constant LRT_CONFIG = 0xDc6654fb39E9D8ae87cA4bE48D9029954772e66F;
     // address public constant LRT_ORACLE = 0x68ED55Af574197f43262f78274Fb5A7FB836e83f;
@@ -92,7 +91,6 @@ library AddressesHolesky {
     // address public constant NODE_DELEGATOR = 0x134ed22982EDE4ED69aC8c3ee5B29874bC0492F9;
     // address public constant NODE_DELEGATOR_NATIVE_STAKING = 0x03f754CC229C916cb0dd936F5a332c4De32aAb29;
     // address public constant EIGEN_POD = 0x4b4DC934Dd44A1B48C822c70997eFb4a828118c8;
-    // address public constant PRIME_ZAPPER = 0xdee41ea9A4c8EF7D78377eEC0093785E0B2B3485;
 
     // address public constant CHAINLINK_ORACLE_PROXY = ;
 
