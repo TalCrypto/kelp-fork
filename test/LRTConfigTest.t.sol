@@ -244,11 +244,11 @@ contract LRTConfigUpdateAssetStrategyTest is LRTConfigTest {
 
     function test_RevertWhenAssetIsNotSupported() external {
         MockToken randomToken = new MockToken("Random Token", "RT");
-        address strategy = address(new MockStrategy(address(randomToken), 1 ether));
+        address _strategy = address(new MockStrategy(address(randomToken), 1 ether));
 
         vm.startPrank(admin);
         vm.expectRevert(ILRTConfig.AssetNotSupported.selector);
-        lrtConfig.updateAssetStrategy(address(randomToken), strategy);
+        lrtConfig.updateAssetStrategy(address(randomToken), _strategy);
         vm.stopPrank();
     }
 
@@ -260,13 +260,13 @@ contract LRTConfigUpdateAssetStrategyTest is LRTConfigTest {
     }
 
     function test_RevertWhenSameStrategyWasAlreadyAddedBeforeForAsset() external {
-        address strategy = address(new MockStrategy(address(stETH), 1 ether));
+        address _strategy = address(new MockStrategy(address(stETH), 1 ether));
         vm.startPrank(admin);
-        lrtConfig.updateAssetStrategy(address(stETH), strategy);
+        lrtConfig.updateAssetStrategy(address(stETH), _strategy);
 
         // revert when same strategy was already added before for asset
         vm.expectRevert(ILRTConfig.ValueAlreadyInUse.selector);
-        lrtConfig.updateAssetStrategy(address(stETH), strategy);
+        lrtConfig.updateAssetStrategy(address(stETH), _strategy);
         vm.stopPrank();
     }
 

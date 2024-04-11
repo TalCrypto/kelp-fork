@@ -31,16 +31,16 @@ contract NovETHTest is BaseTest, LRTConfigTest {
 contract NovETHInitialize is NovETHTest {
     function test_RevertWhenAdminIsZeroAddress() external {
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        noveth.initialize(address(0), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
     }
 
     function test_RevertWhenLRTConfigIsZeroAddress() external {
         vm.expectRevert(UtilLib.ZeroAddressNotAllowed.selector);
-        noveth.initialize(address(admin), address(0));
+        noveth.initialize(address(0));
     }
 
     function test_InitializeContractsVariables() external {
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
 
         assertTrue(lrtConfig.hasRole(LRTConstants.DEFAULT_ADMIN_ROLE, admin), "Admin address is not set");
         assertEq(address(lrtConfig), address(noveth.lrtConfig()), "LRT config address is not set");
@@ -56,7 +56,7 @@ contract NovETHMint is NovETHTest {
     function setUp() public override {
         super.setUp();
 
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -109,7 +109,7 @@ contract NovETHBurnFrom is NovETHTest {
 
     function setUp() public override {
         super.setUp();
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -154,7 +154,7 @@ contract NovETHBurnFrom is NovETHTest {
 contract NovETHPause is NovETHTest {
     function setUp() public override {
         super.setUp();
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, manager);
@@ -193,7 +193,7 @@ contract NovETHPause is NovETHTest {
 contract NovETHUnpause is NovETHTest {
     function setUp() public override {
         super.setUp();
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
 
         vm.startPrank(admin);
         lrtConfig.grantRole(LRTConstants.MANAGER, admin);

@@ -642,7 +642,7 @@ contract LRTIntegrationTest is Test {
     function test_NovETHIsAlreadyInitialized() public {
         // attempt to initialize NovETH again reverts
         vm.expectRevert("Initializable: contract is already initialized");
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
     }
 
     function test_RevertWhenCallerIsNotLRTManager() external {

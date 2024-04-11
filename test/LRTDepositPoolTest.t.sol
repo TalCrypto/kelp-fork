@@ -93,7 +93,7 @@ contract LRTDepositPoolTest is BaseTest, NovETHTest {
         lrtDepositPool = LRTDepositPool(payable(contractProxy));
 
         // initialize NovETH. LRTCOnfig is already initialized in NovETHTest
-        noveth.initialize(address(admin), address(lrtConfig));
+        noveth.initialize(address(lrtConfig));
         vm.startPrank(admin);
         // add novETH to LRT config
         lrtConfig.setNovETH(address(noveth));
