@@ -96,12 +96,12 @@ library AddressesHolesky {
 
     // address public constant CHAINLINK_ORACLE_PROXY = ;
 
-    // address public constant STETH_TOKEN = 0x2C40141Cd278746C9666288d12EbF434Eadef700;
-    // address public constant STETH_EIGEN_STRATEGY = 0xB613E78E2068d7489bb66419fB1cfa11275d14da;
+    address public constant STETH_TOKEN = 0x3F1c547b21f65e10480dE3ad8E19fAAC46C95034;
+    address public constant STETH_EIGEN_STRATEGY = 0x7D704507b76571a51d9caE8AdDAbBFd0ba0e63d3;
     // address public constant STETH_ORACLE = 0x8a2CEc45e0fD024f8C290bB9817357Da3555e142;
 
-    // address public constant ETHX_TOKEN = 0x3338eCd3ab3d3503c55c931d759fA6d78d287236;
-    // address public constant ETHX_EIGEN_STRATEGY = 0x5d1E9DC056C906CBfe06205a39B0D965A6Df7C14;
+    address public constant ETHX_TOKEN = 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859;
+    address public constant ETHX_EIGEN_STRATEGY = 0x31B6F59e1627cEfC9fA174aD03859fC337666af7;
     // address public constant ETHX_ORACLE_PROXY = 0x4d1D09FEd8C1B40DFe231E3Edd59BdC2051F7b63;
     // address public constant STADER_STAKING_POOL_MANAGER = 0xd0e400Ec6Ed9C803A9D9D3a602494393E806F823;
 
