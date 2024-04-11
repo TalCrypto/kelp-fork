@@ -17,10 +17,8 @@ contract NovETH is Initializable, LRTConfigRoleChecker, ERC20Upgradeable, Pausab
     }
 
     /// @dev Initializes the contract
-    /// @param admin Admin address
     /// @param lrtConfigAddr LRT config address
-    function initialize(address admin, address lrtConfigAddr) external initializer {
-        UtilLib.checkNonZeroAddress(admin);
+    function initialize(address lrtConfigAddr) external initializer {
         UtilLib.checkNonZeroAddress(lrtConfigAddr);
 
         __ERC20_init("novETH", "novETH");

@@ -11,7 +11,6 @@ import { OneETHPriceOracle } from "contracts/oracles/OneETHPriceOracle.sol";
 import { NodeDelegator } from "contracts/NodeDelegator.sol";
 import { LRTDepositPool } from "contracts/LRTDepositPool.sol";
 import { UtilLib } from "contracts/utils/UtilLib.sol";
-import { getLSTs } from "script/foundry-scripts/DeployLRT.s.sol";
 import { IEigenPod, IBeaconDeposit } from "contracts/interfaces/IEigenPod.sol";
 
 import { ITransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";

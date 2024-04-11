@@ -37,4 +37,6 @@ library LRTConstants {
     // SSV
     bytes32 public constant SSV_TOKEN = keccak256("SSV_TOKEN");
     bytes32 public constant SSV_NETWORK = keccak256("SSV_NETWORK");
+
+    bytes32 internal constant SALT = keccak256(abi.encodePacked("nov-eth"));
 }
