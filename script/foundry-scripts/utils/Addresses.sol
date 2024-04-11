@@ -81,7 +81,7 @@ library AddressesHolesky {
 
     address public constant PROXY_OWNER = RELAYER;
     // address public constant PROXY_FACTORY = 0xa3e5910f3cc6d694A7191699d145818301E37ae0;
-    // address public constant PROXY_ADMIN = 0xf8daD2780030De2E77c476F242459Fc7a543F433;
+    address public constant PROXY_ADMIN = RELAYER;
 
     // address public constant NOV_ETH = 0x01472AD5c3356433a3B3A6731a8E8742F0018a23;
 
@@ -101,7 +101,7 @@ library AddressesHolesky {
     address public constant ETHX_TOKEN = 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859;
     address public constant ETHX_EIGEN_STRATEGY = 0x31B6F59e1627cEfC9fA174aD03859fC337666af7;
     // address public constant ETHX_ORACLE_PROXY = 0x4d1D09FEd8C1B40DFe231E3Edd59BdC2051F7b63;
-    // address public constant STADER_STAKING_POOL_MANAGER = 0xd0e400Ec6Ed9C803A9D9D3a602494393E806F823;
+    address public constant STADER_STAKING_POOL_MANAGER = 0x7F09ceb3874F5E35Cd2135F56fd4329b88c5d119;
 
     // address public constant WETH_TOKEN = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6;
     // address public constant WETH_ORACLE_PROXY = 0xA7692950974da5ff3dF37e54Fa1cfb7348a39fAb;
