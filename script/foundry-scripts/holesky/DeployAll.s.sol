@@ -4,6 +4,7 @@ pragma solidity 0.8.21;
 
 import "forge-std/Script.sol";
 
+import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -21,7 +22,6 @@ import { OraclesLib } from "../libraries/OraclesLib.sol";
 import { NodeDelegatorLib } from "../libraries/NodeDelegatorLib.sol";
 import { Addresses, AddressesHolesky } from "../utils/Addresses.sol";
 
-import { ProxyFactory } from "script/foundry-scripts/utils/ProxyFactory.sol";
 import { MockPriceAggregator } from "script/foundry-scripts/utils/MockPriceAggregator.sol";
 
 contract DeployAll is Script {
@@ -31,8 +31,6 @@ contract DeployAll is Script {
 
     address public deployerAddress;
     ProxyAdmin public proxyAdmin;
-
-    ProxyFactory public proxyFactory;
 
     LRTConfig public lrtConfig;
     NovETH public novETH;
@@ -131,57 +129,60 @@ contract DeployAll is Script {
             console.log("Deploying on Holesky with deployer: %s", deployer);
         }
 
-        proxyFactory = new ProxyFactory();
         proxyAdmin = new ProxyAdmin(); // msg.sender becomes the owner of ProxyAdmin
 
         deployerAddress = proxyAdmin.owner();
         minAmountToDeposit = 0.0001 ether;
 
         console.log("ProxyAdmin deployed at: ", address(proxyAdmin));
-        console.log("Proxy factory deployed at: ", address(proxyFactory));
         console.log("Tentative owner of ProxyAdmin: ", deployerAddress);
 
         // LRTConfig
         address lrtConfigImplementation = ConfigLib.deployImpl();
-        lrtConfig = ConfigLib.deployProxy(lrtConfigImplementation, proxyAdmin, proxyFactory);
+        lrtConfig =
+            LRTConfig(address(new TransparentUpgradeableProxy(lrtConfigImplementation, address(proxyAdmin), "")));
+        console.log("LrtConfig proxy: ", address(lrtConfig));
 
         // NovETH
         address novETHImplementation = NovETHLib.deployImpl();
-        novETH = NovETHLib.deployProxy(novETHImplementation, proxyAdmin, proxyFactory);
+        novETH = NovETH(address(new TransparentUpgradeableProxy(novETHImplementation, address(proxyAdmin), "")));
+        console.log("NovETH proxy: ", address(novETH));
 
         // Initialize LRTConfig
-        address novETHProxyAddress =
-            proxyFactory.computeAddress(novETHImplementation, address(proxyAdmin), LRTConstants.SALT);
-        assert(address(novETH) == novETHProxyAddress);
-        console.log("predicted novETH proxy address: ", novETHProxyAddress);
-        ConfigLib.initialize(lrtConfig, deployerAddress, novETHProxyAddress);
+        ConfigLib.initialize(lrtConfig, deployerAddress, address(novETH));
 
         // Initialize NovETH
         NovETHLib.initialize(novETH, lrtConfig);
 
         // LRTDepositPool
         address lrtDepositPoolImplementation = DepositPoolLib.deployImpl();
-        depositPool = DepositPoolLib.deployProxy(lrtDepositPoolImplementation, proxyAdmin, proxyFactory);
+        depositPool = LRTDepositPool(
+            payable(address(new TransparentUpgradeableProxy(lrtDepositPoolImplementation, address(proxyAdmin), "")))
+        );
+        console.log("DepositPool proxy: ", address(depositPool));
         DepositPoolLib.initialize(depositPool, lrtConfig);
 
         // LRTOracle
         address lrtOracleImplementation = OraclesLib.deployLRTOracleImpl();
-        lrtOracle = OraclesLib.deployLRTOracleProxy(lrtOracleImplementation, proxyAdmin, proxyFactory);
+        lrtOracle =
+            LRTOracle(address(new TransparentUpgradeableProxy(lrtOracleImplementation, address(proxyAdmin), "")));
+        console.log("LrtOracle proxy: ", address(lrtOracle));
         OraclesLib.initializeLRTOracle(lrtOracle, lrtConfig);
 
         // ChainlinkPriceOracle
-        chainlinkPriceOracleAddress = OraclesLib.deployInitChainlinkOracle(proxyAdmin, proxyFactory, lrtConfig);
-        ethXPriceOracleAddress = OraclesLib.deployInitEthXPriceOracle(proxyAdmin, proxyFactory);
-        address ethOracleProxy = OraclesLib.deployInitETHOracle(proxyAdmin, proxyFactory);
+        chainlinkPriceOracleAddress = OraclesLib.deployInitChainlinkOracle(proxyAdmin, lrtConfig);
+        ethXPriceOracleAddress = OraclesLib.deployInitEthXPriceOracle(proxyAdmin);
+        address ethOracleProxy = OraclesLib.deployInitETHOracle(proxyAdmin);
 
         // DelegatorNode
         address nodeImpl = NodeDelegatorLib.deployImpl();
-        node1 = NodeDelegatorLib.deployProxy(nodeImpl, proxyAdmin, proxyFactory, 1);
+        node1 = NodeDelegator(payable(address(new TransparentUpgradeableProxy(nodeImpl, address(proxyAdmin), ""))));
+        console.log("Node1 proxy: ", address(node1));
         NodeDelegatorLib.initialize(node1, lrtConfig);
 
         // Transfer SSV tokens to the native staking NodeDelegator
         // SSV Faucet https://faucet.ssv.network/
-        IERC20(AddressesHolesky.SSV_TOKEN).transfer(address(node1), 30 ether);
+        // IERC20(AddressesHolesky.SSV_TOKEN).transfer(address(node1), 30 ether);
 
         // Mock aggregators
         stETHPriceFeed = address(new MockPriceAggregator());

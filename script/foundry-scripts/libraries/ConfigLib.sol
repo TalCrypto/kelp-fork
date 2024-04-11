@@ -5,11 +5,13 @@ pragma solidity 0.8.21;
 import "forge-std/console.sol";
 
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
-import { ITransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {
+    TransparentUpgradeableProxy,
+    ITransparentUpgradeableProxy
+} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 import { LRTConfig } from "contracts/LRTConfig.sol";
 import { Addresses, AddressesHolesky } from "../utils/Addresses.sol";
-import { ProxyFactory } from "script/foundry-scripts/utils/ProxyFactory.sol";
 import { LRTConstants } from "contracts/utils/LRTConstants.sol";
 
 library ConfigLib {
@@ -17,20 +19,6 @@ library ConfigLib {
         // Deploy new implementation contract
         implementation = address(new LRTConfig());
         console.log("LRTConfig implementation deployed at: %s", implementation);
-    }
-
-    function deployProxy(
-        address implementation,
-        ProxyAdmin proxyAdmin,
-        ProxyFactory proxyFactory
-    )
-        internal
-        returns (LRTConfig config)
-    {
-        address proxy = proxyFactory.create(implementation, address(proxyAdmin), LRTConstants.SALT);
-        console.log("LRTConfig proxy deployed at: ", proxy);
-
-        config = LRTConfig(proxy);
     }
 
     function initialize(LRTConfig config, address adminAddress, address novETHAddress) internal {

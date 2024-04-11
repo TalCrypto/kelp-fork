@@ -10,29 +10,12 @@ import { ITransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/tran
 import { LRTConfig } from "contracts/LRTConfig.sol";
 import { NodeDelegator } from "contracts/NodeDelegator.sol";
 import { Addresses, AddressesHolesky } from "../utils/Addresses.sol";
-import { ProxyFactory } from "script/foundry-scripts/utils/ProxyFactory.sol";
 
 library NodeDelegatorLib {
     function deployImpl() internal returns (address implementation) {
         // Deploy the new contract
         implementation = address(new NodeDelegator());
         console.log("NodeDelegator implementation deployed at: %s", implementation);
-    }
-
-    function deployProxy(
-        address implementation,
-        ProxyAdmin proxyAdmin,
-        ProxyFactory proxyFactory,
-        uint256 index
-    )
-        internal
-        returns (NodeDelegator nodeDelegator)
-    {
-        bytes32 salt = keccak256(abi.encodePacked("nov-nodeDelegator", index));
-        address proxy = proxyFactory.create(implementation, address(proxyAdmin), salt);
-        console.log("NodeDelegator proxy deployed at: ", proxy);
-
-        nodeDelegator = NodeDelegator(payable(proxy));
     }
 
     function initialize(NodeDelegator nodeDelegator, LRTConfig config) internal {

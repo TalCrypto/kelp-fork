@@ -46,31 +46,12 @@ $ forge coverage
 
 ### Deploy
 
-## Deploy to testnet
+# Deploy to Holesky:
 
 ```bash
-make deploy-lrt-testnet
+source .env
+forge script script/foundry-scripts/holesky/DeployAll.s.sol:DeployAll --rpc-url $HOLESKY_RPC_URL --broadcast --verify -vvvv
 ```
-
-## Deploy to Anvil:
-
-```bash
-make deploy-lrt-local-test
-```
-
-### General Deploy Script Instructions
-
-Create a Deploy script in `script/Deploy.s.sol`:
-
-and run the script:
-
-```sh
-$ forge script script/Deploy.s.sol --broadcast --fork-url http://localhost:8545
-```
-
-For instructions on how to deploy to a testnet or mainnet, check out the
-[Solidity Scripting](https://book.getfoundry.sh/tutorials/solidity-scripting.html) tutorial.
-
 
 ## Verify Contracts
 
