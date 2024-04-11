@@ -83,24 +83,24 @@ library AddressesHolesky {
     // address public constant PROXY_FACTORY = 0xa3e5910f3cc6d694A7191699d145818301E37ae0;
     address public constant PROXY_ADMIN = RELAYER;
 
-    // address public constant NOV_ETH = 0x01472AD5c3356433a3B3A6731a8E8742F0018a23;
+    address public constant NOV_ETH = 0xc5d3754a2C4d6bEc0065B4358F30016cEe1df719;
 
-    // address public constant LRT_CONFIG = 0xDc6654fb39E9D8ae87cA4bE48D9029954772e66F;
-    // address public constant LRT_ORACLE = 0x68ED55Af574197f43262f78274Fb5A7FB836e83f;
-    // address public constant LRT_DEPOSIT_POOL = 0xAfC2A725cc957D0751f2343929C6e062118fB86e;
+    address public constant LRT_CONFIG = 0xFB937D04dc68609e0385A7496fdEc62d5f23eC14;
+    address public constant LRT_ORACLE = 0x969f3D5e7505b38a03Dd5c68f46016601Eea935a;
+    address public constant LRT_DEPOSIT_POOL = 0xb418BDB514A7E0563469c16aAa8288C5A2bB8123;
     // address public constant NODE_DELEGATOR = 0x134ed22982EDE4ED69aC8c3ee5B29874bC0492F9;
-    // address public constant NODE_DELEGATOR_NATIVE_STAKING = 0x03f754CC229C916cb0dd936F5a332c4De32aAb29;
-    // address public constant EIGEN_POD = 0x4b4DC934Dd44A1B48C822c70997eFb4a828118c8;
+    address public constant NODE_DELEGATOR_NATIVE_STAKING = 0xafC71751B714d999b7037edc9F0012D1A741d3D6;
+    address public constant EIGEN_POD = 0x1a0c64a5fc98d0Af6633AE3892B2bf0eD5f457bb;
 
-    // address public constant CHAINLINK_ORACLE_PROXY = ;
+    address public constant CHAINLINK_ORACLE_PROXY = 0xF5a7778dA5d0F1e65D5aE0256497a5304252eCCd;
 
     address public constant STETH_TOKEN = 0x3F1c547b21f65e10480dE3ad8E19fAAC46C95034;
     address public constant STETH_EIGEN_STRATEGY = 0x7D704507b76571a51d9caE8AdDAbBFd0ba0e63d3;
-    // address public constant STETH_ORACLE = 0x8a2CEc45e0fD024f8C290bB9817357Da3555e142;
+    address public constant STETH_ORACLE = 0xF5a7778dA5d0F1e65D5aE0256497a5304252eCCd;
 
     address public constant ETHX_TOKEN = 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859;
     address public constant ETHX_EIGEN_STRATEGY = 0x31B6F59e1627cEfC9fA174aD03859fC337666af7;
-    // address public constant ETHX_ORACLE_PROXY = 0x4d1D09FEd8C1B40DFe231E3Edd59BdC2051F7b63;
+    address public constant ETHX_ORACLE_PROXY = 0x6e07dAfc75cb74B192cD8F6FBf215BAe5DeAB389;
     address public constant STADER_STAKING_POOL_MANAGER = 0x7F09ceb3874F5E35Cd2135F56fd4329b88c5d119;
 
     // address public constant WETH_TOKEN = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6;
