@@ -52,17 +52,11 @@ $ forge coverage
 source .env
 forge script script/foundry-scripts/holesky/DeployAll.s.sol:DeployAll --rpc-url $HOLESKY_RPC_URL --broadcast --verify -vvvv
 ```
-
-## Verify Contracts
-
-Follow this pattern
-`contractAddress=<contractAddress> contractPath=<contract-path> make verify-lrt-proxy-testnet`
-
-Example:
+# Add assets to Holesky:
 ```bash
-contractAddress=0xE7b647ab9e0F49093926f06E457fa65d56cb456e contractPath=contracts/LRTConfig.sol:LRTConfig  make verify-lrt-proxy-testnet
+source .env
+forge script script/foundry-scripts/holesky/AddAsset.s.sol:AddAsset --rpc-url $HOLESKY_RPC_URL --broadcast
 ```
-
 
 ### Format
 

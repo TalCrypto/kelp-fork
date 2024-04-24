@@ -47,6 +47,10 @@ library Addresses {
     address public constant RETH_EIGEN_STRATEGY = 0x1BeE69b7dFFfA4E2d53C2a2Df135C388AD25dCD2;
     address public constant RETH_ORACLE = 0x536218f9E9Eb48863970252233c8F271f554C2d0;
 
+    address public constant CBETH_TOKEN = 0xBe9895146f7AF43049ca1c1AE358B0541Ea49704;
+    address public constant CBETH_EIGEN_STRATEGY = 0x54945180dB7943c0ed0FEE7EdaB2Bd24620256bc;
+    address public constant CBETH_ORACLE = 0xF017fcB346A1885194689bA23Eff2fE6fA5C483b;
+
     address public constant SWETH_TOKEN = 0xf951E335afb289353dc249e82926178EaC7DEd78;
     address public constant SWETH_EIGEN_STRATEGY = 0x0Fe4F44beE93503346A3Ac9EE5A26b130a5796d6;
     address public constant SWETH_ORACLE = 0x061bB36F8b67bB922937C102092498dcF4619F86;
@@ -88,7 +92,7 @@ library AddressesHolesky {
     address public constant LRT_CONFIG = 0xFB937D04dc68609e0385A7496fdEc62d5f23eC14;
     address public constant LRT_ORACLE = 0x969f3D5e7505b38a03Dd5c68f46016601Eea935a;
     address public constant LRT_DEPOSIT_POOL = 0xb418BDB514A7E0563469c16aAa8288C5A2bB8123;
-    // address public constant NODE_DELEGATOR = 0x134ed22982EDE4ED69aC8c3ee5B29874bC0492F9;
+    address public constant NODE_DELEGATOR = 0xafC71751B714d999b7037edc9F0012D1A741d3D6;
     address public constant NODE_DELEGATOR_NATIVE_STAKING = 0xafC71751B714d999b7037edc9F0012D1A741d3D6;
     address public constant EIGEN_POD = 0x1a0c64a5fc98d0Af6633AE3892B2bf0eD5f457bb;
 
@@ -96,15 +100,20 @@ library AddressesHolesky {
 
     address public constant STETH_TOKEN = 0x3F1c547b21f65e10480dE3ad8E19fAAC46C95034;
     address public constant STETH_EIGEN_STRATEGY = 0x7D704507b76571a51d9caE8AdDAbBFd0ba0e63d3;
-    address public constant STETH_ORACLE = 0xF5a7778dA5d0F1e65D5aE0256497a5304252eCCd;
+    address public constant STETH_ORACLE = 0xdE7Cf99eE1191D444ca1D5e8145d8D98D9B1EeB6;
+
+    address public constant RETH_TOKEN = 0x7322c24752f79c05FFD1E2a6FCB97020C1C264F1;
+    address public constant RETH_EIGEN_STRATEGY = 0x3A8fBdf9e77DFc25d09741f51d3E181b25d0c4E0;
+    address public constant RETH_ORACLE = 0xdE7Cf99eE1191D444ca1D5e8145d8D98D9B1EeB6;
+
+    address public constant CBETH_TOKEN = 0x8720095Fa5739Ab051799211B146a2EEE4Dd8B37;
+    address public constant CBETH_EIGEN_STRATEGY = 0x70EB4D3c164a6B4A5f908D4FBb5a9cAfFb66bAB6;
+    address public constant CBETH_ORACLE = 0xdE7Cf99eE1191D444ca1D5e8145d8D98D9B1EeB6;
 
     address public constant ETHX_TOKEN = 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859;
     address public constant ETHX_EIGEN_STRATEGY = 0x31B6F59e1627cEfC9fA174aD03859fC337666af7;
     address public constant ETHX_ORACLE_PROXY = 0x6e07dAfc75cb74B192cD8F6FBf215BAe5DeAB389;
     address public constant STADER_STAKING_POOL_MANAGER = 0x7F09ceb3874F5E35Cd2135F56fd4329b88c5d119;
-
-    // address public constant WETH_TOKEN = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6;
-    // address public constant WETH_ORACLE_PROXY = 0xA7692950974da5ff3dF37e54Fa1cfb7348a39fAb;
 
     // address public constant EIGEN_UNPAUSER = 0x3d9C2c2B40d890ad53E27947402e977155CD2808;
     address public constant EIGEN_STRATEGY_MANAGER = 0xdfB5f6CE42aAA7830E94ECFCcAd411beF4d4D5b6;
